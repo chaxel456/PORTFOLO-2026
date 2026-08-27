@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="N.W.A. SMILE — A Nexus Works Building Company. Architecture, building design and construction portfolio.">
+  <title>N.W.A. SMILE | Architecture & Building Portfolio</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { ink:'#17191b', charcoal:'#232629', orange:'#f47b20', cream:'#f7f5f1', steel:'#a9adb0' },
+          fontFamily: { display:['Playfair Display','serif'], sans:['Inter','sans-serif'] },
+          boxShadow: { soft:'0 24px 70px rgba(0,0,0,.12)' }
+        }
+      }
+    }
+  </script>
+  <script src="supabase-config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    html { scroll-behavior:smooth; }
+    body { font-family:Inter,sans-serif; background:#f7f5f1; color:#17191b; }
+    .display { font-family:'Playfair Display',serif; }
+    .orange-line { width:58px;height:3px;background:#f47b20; }
+    .grid-bg { background-image:linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px);background-size:38px 38px; }
+    .hero-image { background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.5)),url('https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=85') center/cover; }
+    .project-1 { background:url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85') center/cover; }
+    .project-2 { background:url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1000&q=85') center/cover; }
+    .project-3 { background:url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1000&q=85') center/cover; }
+    .project-4 { background:url('https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1000&q=85') center/cover; }
+    .reveal { opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease; }
+    .reveal.show { opacity:1;transform:none; }
+    .nav-scrolled { box-shadow:0 10px 35px rgba(0,0,0,.12);background:rgba(23,25,27,.97)!important; }
+    .filter-active { background:#f47b20!important;color:white!important;border-color:#f47b20!important; }
+    .wa-pulse { animation:waPulse 2.2s infinite; }
+    @keyframes waPulse { 0%,100%{box-shadow:0 0 0 0 rgba(37,211,102,.32)} 50%{box-shadow:0 0 0 14px rgba(37,211,102,0)} }
+  </style>
+</head>
+
+<body>
+  <!-- ================= CONFIG ================= -->
+  <script>
+    // CHANGE THESE TWO VALUES when the real contact details are ready.
+    const NWA_CONFIG = {
+      whatsapp: '08089531843', // Nigeria number, digits only, e.g. 2348012345678
+      email: 'sambright440@gmail.com'
+    };
+  </script>
+
+  <header id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-ink/90 backdrop-blur-md border-b border-white/10 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+      <nav class="h-20 flex items-center justify-between">
+        <a href="#home" class="flex items-center gap-3">
+          <img src="assets/logo.png" alt="N.W.A. SMILE logo" class="w-12 h-12 object-contain rounded">
+          <div class="hidden sm:block leading-tight">
+            <div class="text-white font-extrabold tracking-[.18em] text-sm">N.W.A. SMILE</div>
+            <div class="text-white/50 text-[9px] tracking-[.12em] uppercase">A Nexus Works Building Company</div>
+          </div>
+        </a>
+        <div class="hidden md:flex items-center gap-7 text-sm font-medium">
+          <a href="#about" class="text-white/75 hover:text-orange transition">About</a>
+          <a href="#services" class="text-white/75 hover:text-orange transition">Services</a>
+          <a href="#projects" class="text-white/75 hover:text-orange transition">Projects</a>
+          <a href="#media" class="text-white/75 hover:text-orange transition">Media</a>
+          <a href="#process" class="text-white/75 hover:text-orange transition">Process</a>
+          <a href="#contact" class="px-5 py-3 bg-orange text-white hover:bg-orange/90 transition">Project Enquiry</a>
+        </div>
+        <button id="menuBtn" class="md:hidden text-white p-2" aria-label="Open menu">
+          <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </nav>
+      <div id="mobileNav" class="hidden md:hidden pb-5">
+        <div class="flex flex-col gap-1 text-sm">
+          <a href="#about" class="mobile-link text-white/80 px-4 py-3">About</a>
+          <a href="#services" class="mobile-link text-white/80 px-4 py-3">Services</a>
+          <a href="#projects" class="mobile-link text-white/80 px-4 py-3">Projects</a>
+          <a href="#media" class="mobile-link text-white/80 px-4 py-3">Media</a>
+          <a href="#process" class="mobile-link text-white/80 px-4 py-3">Process</a>
+          <a href="#contact" class="mobile-link text-orange px-4 py-3 font-bold">Project Enquiry →</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="home">
+    <!-- HERO -->
+    <section class="min-h-screen bg-ink relative overflow-hidden">
+      <div class="absolute inset-0 grid-bg opacity-50"></div><div class="absolute -right-40 -top-40 w-[500px] h-[500px] rounded-full bg-orange/10 blur-3xl"></div>
+      <div class="max-w-7xl mx-auto px-5 lg:px-8 pt-32 pb-16 min-h-screen flex items-center relative">
+        <div class="grid lg:grid-cols-[1.05fr_.95fr] gap-12 items-center w-full">
+          <div class="reveal">
+            <div class="flex items-center gap-3 mb-7"><div class="orange-line"></div><span class="uppercase tracking-[.25em] text-orange text-xs font-bold">Architecture • Building • Design</span></div>
+            <h1 class="display text-white text-5xl sm:text-6xl lg:text-7xl leading-[.98] font-semibold">We design spaces<br><span class="text-orange">built to last.</span></h1>
+            <p class="mt-7 text-white/65 text-base sm:text-lg leading-8 max-w-xl">N.W.A. SMILE is a building and design practice creating thoughtful, functional and enduring spaces — from the first sketch to the final finish.</p>
+            <div class="mt-9 flex flex-wrap gap-4">
+              <a href="#projects" class="px-7 py-4 bg-orange text-white font-bold hover:-translate-y-1 transition">Explore Projects</a>
+              <a id="heroWhatsapp" href="#" target="_blank" rel="noopener" class="px-7 py-4 border border-white/20 text-white font-bold hover:bg-white hover:text-ink transition">Chat on WhatsApp</a>
+            </div>
+            <div class="mt-12 flex items-center gap-10"><div><div class="text-3xl font-extrabold text-white">04+</div><div class="text-xs text-white/45 uppercase tracking-wider mt-1">Years Experience</div></div><div class="h-10 w-px bg-white/15"></div><div><div class="text-3xl font-extrabold text-white">Design</div><div class="text-xs text-white/45 uppercase tracking-wider mt-1">Build • Deliver</div></div></div>
+          </div>
+          <div class="reveal"><div class="hero-image min-h-[500px] lg:min-h-[650px] relative"><div class="absolute inset-0 border border-white/15 m-4"></div><div class="absolute bottom-0 left-0 right-0 p-7 bg-gradient-to-t from-black/75 to-transparent pt-28"><div class="text-white/50 text-xs tracking-[.25em] uppercase">Featured Architecture</div><div class="text-white display text-2xl mt-2">Contemporary Living</div></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="py-24 lg:py-32 bg-cream"><div class="max-w-7xl mx-auto px-5 lg:px-8"><div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div class="reveal"><p class="text-orange font-bold text-xs tracking-[.25em] uppercase">01 / About</p><h2 class="display text-4xl sm:text-5xl lg:text-6xl leading-tight mt-4">Building with purpose.<br>Designing with heart.</h2><div class="orange-line mt-7"></div><p class="mt-7 text-black/60 leading-8 max-w-xl">N.W.A. SMILE — A Nexus Works Building Company — brings together architectural thinking, practical construction knowledge and attention to detail to turn ideas into spaces people can live, work and grow in.</p><p class="mt-5 text-black/60 leading-8 max-w-xl">With 4 years of experience, our approach is simple: understand the client, design intelligently, build responsibly and deliver work that stands the test of time.</p></div>
+      <div class="reveal grid grid-cols-2 gap-4"><div class="bg-ink text-white p-7 min-h-[190px] flex flex-col justify-between"><div class="text-orange text-3xl">01</div><div><div class="font-bold">Thoughtful Design</div><p class="text-white/50 text-sm mt-2">Every space begins with a clear idea.</p></div></div><div class="border border-black/10 p-7 min-h-[190px] flex flex-col justify-between"><div class="text-orange text-3xl">02</div><div><div class="font-bold">Quality Build</div><p class="text-black/50 text-sm mt-2">Practical construction with lasting value.</p></div></div><div class="border border-black/10 p-7 min-h-[190px] flex flex-col justify-between"><div class="text-orange text-3xl">03</div><div><div class="font-bold">Client First</div><p class="text-black/50 text-sm mt-2">Your vision remains at the centre.</p></div></div><div class="bg-orange text-white p-7 min-h-[190px] flex flex-col justify-between"><div class="text-white text-3xl">04</div><div><div class="font-bold">Built to Last</div><p class="text-white/70 text-sm mt-2">Strong details. Timeless results.</p></div></div></div>
+    </div></div></section>
+
+    <!-- SERVICES -->
+    <section id="services" class="py-24 lg:py-32 bg-white"><div class="max-w-7xl mx-auto px-5 lg:px-8"><div class="max-w-2xl reveal"><p class="text-orange font-bold text-xs tracking-[.25em] uppercase">02 / Services</p><h2 class="display text-4xl sm:text-5xl mt-4">From concept to construction.</h2><p class="mt-5 text-black/55 leading-7">A complete building journey under one professional direction.</p></div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-black/10 mt-14 reveal">
+        <article class="bg-white p-8 lg:p-10 group hover:bg-ink hover:text-white transition duration-500"><div class="text-orange text-3xl mb-10">⌂</div><h3 class="text-xl font-bold">Architectural Design</h3><p class="mt-4 text-sm leading-7 text-black/50 group-hover:text-white/55">Concept development, planning and design solutions for residential and commercial spaces.</p></article>
+        <article class="bg-white p-8 lg:p-10 group hover:bg-ink hover:text-white transition duration-500"><div class="text-orange text-3xl mb-10">▦</div><h3 class="text-xl font-bold">Building Construction</h3><p class="mt-4 text-sm leading-7 text-black/50 group-hover:text-white/55">Turning approved designs into durable, functional structures with careful execution.</p></article>
+        <article class="bg-white p-8 lg:p-10 group hover:bg-ink hover:text-white transition duration-500"><div class="text-orange text-3xl mb-10">◇</div><h3 class="text-xl font-bold">3D Visualization</h3><p class="mt-4 text-sm leading-7 text-black/50 group-hover:text-white/55">Photorealistic visual concepts that help clients understand the building before construction.</p></article>
+        <article class="bg-white p-8 lg:p-10 group hover:bg-ink hover:text-white transition duration-500"><div class="text-orange text-3xl mb-10">◫</div><h3 class="text-xl font-bold">Interior Design</h3><p class="mt-4 text-sm leading-7 text-black/50 group-hover:text-white/55">Elegant and functional interiors designed to complement the architecture.</p></article>
+        <article class="bg-white p-8 lg:p-10 group hover:bg-ink hover:text-white transition duration-500"><div class="text-orange text-3xl mb-10">↻</div><h3 class="text-xl font-bold">Renovation</h3><p class="mt-4 text-sm leading-7 text-black/50 group-hover:text-white/55">Smart upgrades that improve existing spaces without losing their character.</p></article>
+        <article class="bg-white p-8 lg:p-10 group hover:bg-ink hover:text-white transition duration-500"><div class="text-orange text-3xl mb-10">✓</div><h3 class="text-xl font-bold">Project Management</h3><p class="mt-4 text-sm leading-7 text-black/50 group-hover:text-white/55">Coordinating people, materials and timelines to keep your project moving forward.</p></article>
+      </div>
+    </div></section>
+
+    <!-- PROJECT LIBRARY -->
+    <section id="projects" class="py-24 lg:py-32 bg-ink"><div class="max-w-7xl mx-auto px-5 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-7 reveal"><div><p class="text-orange font-bold text-xs tracking-[.25em] uppercase">03 / Project Library</p><h2 class="display text-white text-4xl sm:text-5xl mt-4">Our work, all in one place.</h2><p class="text-white/45 max-w-xl mt-5 leading-7">Completed projects, current construction and future case studies can live here. Later, the admin dashboard will update this section automatically.</p></div>
+      <div id="filters" class="flex gap-2 flex-wrap"><button data-filter="all" class="filter-btn filter-active px-4 py-2 text-xs font-bold border">All</button><button data-filter="completed" class="filter-btn px-4 py-2 text-xs font-bold border border-white/15 text-white/60">Completed</button><button data-filter="ongoing" class="filter-btn px-4 py-2 text-xs font-bold border border-white/15 text-white/60">Ongoing</button><button data-filter="residential" class="filter-btn px-4 py-2 text-xs font-bold border border-white/15 text-white/60">Residential</button><button data-filter="commercial" class="filter-btn px-4 py-2 text-xs font-bold border border-white/15 text-white/60">Commercial</button></div></div>
+
+      <div id="projectGrid" class="grid md:grid-cols-2 gap-5 mt-12">
+        <article data-category="completed residential" class="project-card reveal group md:row-span-2"><div class="project-1 h-[430px] md:h-full min-h-[620px] relative overflow-hidden"><div class="absolute bottom-0 left-0 right-0 p-7 bg-gradient-to-t from-black/90 via-black/40 to-transparent pt-28"><div class="flex justify-between items-center"><p class="text-orange text-[10px] tracking-[.25em] uppercase font-bold">Completed • Residential</p><span class="text-white/50 text-xs">01</span></div><h3 class="text-white display text-3xl mt-2">Modern Family Residence</h3><p class="text-white/55 text-sm mt-2">Contemporary home • Concept & Design</p></div></div></article>
+        <article data-category="ongoing commercial" class="project-card reveal group"><div class="project-2 h-[300px] relative overflow-hidden"><div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent pt-24"><p class="text-orange text-[10px] tracking-[.25em] uppercase font-bold">Ongoing • Commercial</p><h3 class="text-white display text-2xl mt-2">Contemporary Office</h3><p class="text-white/50 text-xs mt-1">Construction in progress</p></div></div></article>
+        <article data-category="completed residential" class="project-card reveal group"><div class="project-3 h-[300px] relative overflow-hidden"><div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent pt-24"><p class="text-orange text-[10px] tracking-[.25em] uppercase font-bold">Completed • Residential</p><h3 class="text-white display text-2xl mt-2">Minimalist Residence</h3></div></div></article>
+        <article data-category="ongoing commercial" class="project-card reveal group"><div class="project-4 h-[300px] relative overflow-hidden"><div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/90 to-transparent pt-24"><p class="text-orange text-[10px] tracking-[.25em] uppercase font-bold">Ongoing • Commercial</p><h3 class="text-white display text-2xl mt-2">Business Complex</h3></div></div></article>
+      </div>
+      <div class="mt-10 border border-white/10 p-6 flex flex-col md:flex-row md:items-center justify-between gap-5"><div><div class="text-white font-bold">More projects will be added here.</div><p class="text-white/40 text-sm mt-1">The future admin dashboard will let the team publish project images, descriptions, status and videos without editing this page.</p></div><a href="#contact" class="text-orange font-bold text-sm">Add your project →</a></div>
+    </div></section>
+
+    <!-- MEDIA / VIDEOS -->
+    <section id="media" class="py-24 lg:py-32 bg-cream"><div class="max-w-7xl mx-auto px-5 lg:px-8">
+      <div class="reveal"><p class="text-orange font-bold text-xs tracking-[.25em] uppercase">04 / Media & Site Stories</p><h2 class="display text-4xl sm:text-5xl mt-4">See the work come to life.</h2><p class="mt-5 text-black/55 max-w-2xl leading-7">This section is ready for construction videos, walkthroughs, before-and-after clips, drone footage and project updates.</p></div>
+      <div class="grid md:grid-cols-3 gap-5 mt-12">
+        <article class="bg-white border border-black/10 reveal"><div class="aspect-video bg-ink relative overflow-hidden"><img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=900&q=80" alt="Construction site" class="w-full h-full object-cover opacity-75"><div class="absolute inset-0 flex items-center justify-center"><span class="w-16 h-16 rounded-full bg-orange text-white flex items-center justify-center text-xl pl-1">▶</span></div><span class="absolute left-4 top-4 bg-ink text-white text-[10px] font-bold px-3 py-2 uppercase tracking-wider">Video ready</span></div><div class="p-6"><h3 class="font-bold">Construction Progress</h3><p class="text-black/50 text-sm mt-2">Replace this placeholder with a real site video.</p></div></article>
+        <article class="bg-white border border-black/10 reveal"><div class="aspect-video bg-ink relative overflow-hidden"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80" alt="Interior" class="w-full h-full object-cover opacity-75"><div class="absolute inset-0 flex items-center justify-center"><span class="w-16 h-16 rounded-full bg-orange text-white flex items-center justify-center text-xl pl-1">▶</span></div><span class="absolute left-4 top-4 bg-ink text-white text-[10px] font-bold px-3 py-2 uppercase tracking-wider">Video ready</span></div><div class="p-6"><h3 class="font-bold">Project Walkthrough</h3><p class="text-black/50 text-sm mt-2">Add a finished building walkthrough here.</p></div></article>
+        <article class="bg-white border border-black/10 reveal"><div class="aspect-video bg-ink relative overflow-hidden"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=900&q=80" alt="Architectural drawings" class="w-full h-full object-cover opacity-75"><div class="absolute inset-0 flex items-center justify-center"><span class="w-16 h-16 rounded-full bg-orange text-white flex items-center justify-center text-xl pl-1">▶</span></div><span class="absolute left-4 top-4 bg-ink text-white text-[10px] font-bold px-3 py-2 uppercase tracking-wider">Video ready</span></div><div class="p-6"><h3 class="font-bold">Design Process</h3><p class="text-black/50 text-sm mt-2">Show sketches, 3D design and planning stages.</p></div></article>
+      </div>
+    </div></section>
+
+    <!-- PROCESS -->
+    <section id="process" class="py-24 lg:py-32 bg-white"><div class="max-w-7xl mx-auto px-5 lg:px-8"><div class="grid lg:grid-cols-[.75fr_1.25fr] gap-16"><div class="reveal"><p class="text-orange font-bold text-xs tracking-[.25em] uppercase">05 / Our Process</p><h2 class="display text-4xl sm:text-5xl mt-4">A clear path from idea to reality.</h2><p class="mt-6 text-black/55 leading-8">Good buildings come from good communication, careful planning and disciplined execution.</p></div><div class="reveal"><div class="border-t border-black/15"><div class="py-7 border-b border-black/15 grid sm:grid-cols-[70px_1fr] gap-5"><span class="text-orange font-bold">01</span><div><h3 class="font-bold text-xl">Consultation</h3><p class="text-black/50 text-sm leading-7 mt-2">We listen to your needs, budget, site conditions and vision.</p></div></div><div class="py-7 border-b border-black/15 grid sm:grid-cols-[70px_1fr] gap-5"><span class="text-orange font-bold">02</span><div><h3 class="font-bold text-xl">Concept & Design</h3><p class="text-black/50 text-sm leading-7 mt-2">Ideas become plans, layouts, elevations and compelling 3D visuals.</p></div></div><div class="py-7 border-b border-black/15 grid sm:grid-cols-[70px_1fr] gap-5"><span class="text-orange font-bold">03</span><div><h3 class="font-bold text-xl">Planning & Documentation</h3><p class="text-black/50 text-sm leading-7 mt-2">Detailed drawings and documentation prepare the project for execution.</p></div></div><div class="py-7 border-b border-black/15 grid sm:grid-cols-[70px_1fr] gap-5"><span class="text-orange font-bold">04</span><div><h3 class="font-bold text-xl">Construction</h3><p class="text-black/50 text-sm leading-7 mt-2">We coordinate the build with attention to quality, details and progress.</p></div></div><div class="py-7 border-b border-black/15 grid sm:grid-cols-[70px_1fr] gap-5"><span class="text-orange font-bold">05</span><div><h3 class="font-bold text-xl">Finishing & Handover</h3><p class="text-black/50 text-sm leading-7 mt-2">Final details are completed and the finished space is delivered.</p></div></div></div></div></div></div></section>
+
+
+    <!-- LIVE MEDIA FROM ADMIN -->
+    <section id="live-media" class="py-24 lg:py-32 bg-white">
+      <div class="max-w-7xl mx-auto px-5 lg:px-8">
+        <div class="reveal">
+          <p class="text-orange font-bold text-xs tracking-[.25em] uppercase">05 / Project Media</p>
+          <h2 class="display text-4xl sm:text-5xl mt-4">See the work come to life.</h2>
+          <p class="mt-5 text-black/55 max-w-2xl leading-7">Photos and videos published by N.W.A. SMILE from the live project dashboard.</p>
+        </div>
+        <div id="liveMediaGrid" class="grid md:grid-cols-2 xl:grid-cols-3 gap-5 mt-12">
+          <div class="text-black/40 text-sm">Published project media will appear here.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="bg-orange py-20"><div class="max-w-7xl mx-auto px-5 lg:px-8 text-center reveal"><p class="text-white/70 text-xs tracking-[.3em] uppercase font-bold">Have a building idea?</p><h2 class="display text-white text-4xl sm:text-5xl lg:text-6xl mt-4">Let's build something meaningful.</h2><div class="flex flex-wrap justify-center gap-4 mt-8"><a id="ctaWhatsapp" href="#" target="_blank" rel="noopener" class="px-8 py-4 bg-white text-ink font-bold hover:bg-ink hover:text-white transition">WhatsApp Us</a><a href="#contact" class="px-8 py-4 bg-ink text-white font-bold hover:bg-white hover:text-ink transition">Project Enquiry</a></div></div></section>
+
+    <!-- CONTACT / ENQUIRY -->
+    <section id="contact" class="py-24 lg:py-32 bg-cream"><div class="max-w-7xl mx-auto px-5 lg:px-8"><div class="grid lg:grid-cols-2 gap-16">
+      <div class="reveal"><p class="text-orange font-bold text-xs tracking-[.25em] uppercase">06 / Project Enquiry</p><h2 class="display text-4xl sm:text-5xl mt-4">Tell us what you want to build.</h2><p class="mt-6 text-black/55 leading-8 max-w-lg">Complete the form and it will open a prepared Gmail message addressed to N.W.A. SMILE. You can review it and press Send. WhatsApp is also available for faster conversations.</p><div class="mt-10 space-y-6"><div><div class="text-xs uppercase tracking-wider text-black/35 font-bold">Phone / WhatsApp</div><div id="contactPhone" class="font-bold mt-1">+234 XXX XXX XXXX</div></div><div><div class="text-xs uppercase tracking-wider text-black/35 font-bold">Email</div><div id="contactEmail" class="font-bold mt-1">hello@nwasmile.com</div></div><div><div class="text-xs uppercase tracking-wider text-black/35 font-bold">Location</div><div class="font-bold mt-1">Nigeria</div></div></div><a id="contactWhatsapp" href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-3 mt-9 px-6 py-4 bg-[#25D366] text-white font-bold hover:-translate-y-1 transition">WhatsApp <span>→</span></a></div>
+      <form id="contactForm" class="reveal bg-white p-7 sm:p-10 shadow-soft">
+        <div class="grid sm:grid-cols-2 gap-5"><div><label class="text-xs font-bold uppercase tracking-wider">Name *</label><input id="name" required type="text" class="mt-2 w-full bg-cream border border-black/10 px-4 py-4 outline-none focus:border-orange" placeholder="Your name"></div><div><label class="text-xs font-bold uppercase tracking-wider">Phone *</label><input id="phone" required type="tel" class="mt-2 w-full bg-cream border border-black/10 px-4 py-4 outline-none focus:border-orange" placeholder="Your phone"></div></div>
+        <div class="mt-5"><label class="text-xs font-bold uppercase tracking-wider">Email</label><input id="email" type="email" class="mt-2 w-full bg-cream border border-black/10 px-4 py-4 outline-none focus:border-orange" placeholder="you@example.com"></div>
+        <div class="mt-5"><label class="text-xs font-bold uppercase tracking-wider">Project Type</label><select id="projectType" class="mt-2 w-full bg-cream border border-black/10 px-4 py-4 outline-none focus:border-orange"><option>Residential Building</option><option>Commercial Building</option><option>Architectural Design</option><option>3D Visualization</option><option>Renovation</option><option>Construction</option><option>Other</option></select></div>
+        <div class="grid sm:grid-cols-2 gap-5 mt-5"><div><label class="text-xs font-bold uppercase tracking-wider">Location</label><input id="location" type="text" class="mt-2 w-full bg-cream border border-black/10 px-4 py-4 outline-none focus:border-orange" placeholder="Project location"></div><div><label class="text-xs font-bold uppercase tracking-wider">Budget Range</label><select id="budget" class="mt-2 w-full bg-cream border border-black/10 px-4 py-4 outline-none focus:border-orange"><option>Not decided</option><option>Below ₦10m</option><option>₦10m – ₦30m</option><option>₦30m – ₦70m</option><option>₦70m+</option></select></div></div>
+        <div class="mt-5"><label class="text-xs font-bold uppercase tracking-wider">Tell us about the project *</label><textarea id="message" required rows="5" class="mt-2 w-full bg-cream border border-black/10 px-4 py-4 outline-none focus:border-orange resize-none" placeholder="Describe what you want to build..."></textarea></div>
+        <button type="submit" class="mt-5 w-full bg-ink text-white py-4 font-bold hover:bg-orange transition">Continue to Gmail →</button>
+        <p class="mt-4 text-xs text-black/40">Your enquiry is prepared in Gmail. You remain in control of sending it.</p>
+      </form>
+    </div></div></section>
+  </main>
+
+  <footer class="bg-ink text-white border-t border-white/10"><div class="max-w-7xl mx-auto px-5 lg:px-8 py-10 flex flex-col md:flex-row justify-between gap-5 items-center"><div class="flex items-center gap-3"><img src="assets/logo.png" alt="" class="w-10 h-10 object-contain rounded"><div><div class="font-extrabold tracking-[.15em] text-sm">N.W.A. SMILE</div><div class="text-white/40 text-[9px] uppercase tracking-wider">A Nexus Works Building Company</div></div></div><p class="text-white/35 text-xs">© <span id="year"></span> N.W.A. SMILE. All rights reserved.</p><a href="#home" class="text-orange text-sm font-bold">Back to top ↑</a></div></footer>
+
+  <!-- FLOATING WHATSAPP -->
+  <a id="floatingWhatsapp" href="#" target="_blank" rel="noopener" aria-label="Chat with N.W.A. SMILE on WhatsApp" class="wa-pulse fixed right-5 bottom-5 z-50 w-14 h-14 rounded-full bg-[#25D366] text-white flex items-center justify-center shadow-xl hover:scale-110 transition-transform">
+    <svg width="29" height="29" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.87 11.87 0 0 0 12.05 0C5.49 0 .15 5.34.15 11.9c0 2.1.55 4.15 1.59 5.96L.05 24l6.29-1.65a11.86 11.86 0 0 0 5.7 1.45h.01c6.56 0 11.9-5.34 11.9-11.9 0-3.18-1.24-6.17-3.43-8.42ZM12.05 21.77h-.01a9.85 9.85 0 0 1-5.02-1.38l-.36-.21-3.73.98 1-3.64-.23-.37a9.84 9.84 0 0 1-1.51-5.25C2.19 6.46 6.61 2.04 12.05 2.04c2.63 0 5.1 1.03 6.96 2.9a9.82 9.82 0 0 1 2.88 6.97c0 5.44-4.42 9.86-9.84 9.86Zm5.41-7.39c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.95 1.17-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.21 5.09 4.5.71.31 1.26.49 1.69.63.71.23 1.35.2 1.86.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35Z"/></svg>
+  </a>
+
+  <script>
+    // WhatsApp links
+    const waText = encodeURIComponent('Hello N.W.A. SMILE, I would like to discuss a building/design project.');
+    const waUrl = `https://wa.me/${NWA_CONFIG.whatsapp}?text=${waText}`;
+    ['heroWhatsapp','ctaWhatsapp','contactWhatsapp','floatingWhatsapp'].forEach(id => document.getElementById(id).href = waUrl);
+
+    document.getElementById('contactEmail').textContent = NWA_CONFIG.email;
+    document.getElementById('contactPhone').textContent = NWA_CONFIG.whatsapp.startsWith('234') ? '+' + NWA_CONFIG.whatsapp : NWA_CONFIG.whatsapp;
+
+    // Mobile navigation
+    const menuBtn=document.getElementById('menuBtn'),mobileNav=document.getElementById('mobileNav');
+    menuBtn.addEventListener('click',()=>mobileNav.classList.toggle('hidden'));
+    document.querySelectorAll('.mobile-link').forEach(link=>link.addEventListener('click',()=>mobileNav.classList.add('hidden')));
+
+    // Sticky navigation
+    const navbar=document.getElementById('navbar');
+    window.addEventListener('scroll',()=>navbar.classList.toggle('nav-scrolled',window.scrollY>30));
+
+    // Project filters: status + type
+    const filterButtons=document.querySelectorAll('.filter-btn'),cards=document.querySelectorAll('.project-card');
+    filterButtons.forEach(btn=>btn.addEventListener('click',()=>{
+      const filter=btn.dataset.filter;
+      filterButtons.forEach(b=>b.classList.remove('filter-active'));
+      btn.classList.add('filter-active');
+      cards.forEach(card=>{
+        const categories=card.dataset.category.split(' ');
+        card.style.display=(filter==='all'||categories.includes(filter))?'':'none';
+      });
+    }));
+
+    // Scroll reveal
+    const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('show');observer.unobserve(entry.target);}}),{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+    // Real enquiry flow: save to Supabase first, then open Gmail compose.
+    const sbCfg = window.SUPABASE_CONFIG || {};
+    const sb = (sbCfg.url && !sbCfg.url.includes('YOUR-PROJECT') && sbCfg.anonKey && !sbCfg.anonKey.includes('YOUR_SUPABASE'))
+      ? window.supabase.createClient(sbCfg.url, sbCfg.anonKey) : null;
+
+    document.getElementById('contactForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const button = e.currentTarget.querySelector('button[type="submit"]');
+      button.disabled = true;
+      button.textContent = 'Preparing enquiry...';
+
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const type = document.getElementById('projectType').value;
+      const location = document.getElementById('location').value.trim();
+      const budget = document.getElementById('budget').value;
+      const message = document.getElementById('message').value.trim();
+
+      try {
+        if (sb) {
+          const { error } = await sb.from('enquiries').insert({
+            name, phone, email, project_type:type, location, budget, message
+          });
+          if (error) throw error;
+        }
+
+        const subject = encodeURIComponent(`Project Enquiry — ${type} — ${name}`);
+        const body = encodeURIComponent(
+          `Hello N.W.A. SMILE,\n\nI would like to make a project enquiry.\n\n` +
+          `Name: ${name}\nPhone: ${phone}\nEmail: ${email || 'Not provided'}\n` +
+          `Project Type: ${type}\nProject Location: ${location || 'Not provided'}\n` +
+          `Budget Range: ${budget}\n\nProject Details:\n${message}\n\nThank you.`
+        );
+        const gmail = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(NWA_CONFIG.email)}&su=${subject}&body=${body}`;
+        window.open(gmail, '_blank', 'noopener');
+
+        const notice = document.getElementById('formMessage');
+        notice.textContent = 'Enquiry saved. Your Gmail draft is ready — press Send in Gmail to complete it.';
+        notice.classList.remove('hidden');
+        e.currentTarget.reset();
+      } catch (err) {
+        const notice = document.getElementById('formMessage');
+        notice.textContent = err.message || 'Unable to save the enquiry. Please try WhatsApp instead.';
+        notice.classList.remove('hidden');
+      } finally {
+        button.disabled = false;
+        button.textContent = 'Continue to Gmail →';
+      }
+    });
+
+    // Live public project library and media.
+    async function loadLivePortfolio() {
+      if (!sb) return;
+
+      const { data: ps } = await sb.from('projects')
+        .select('*').neq('status','Draft').order('created_at',{ascending:false});
+
+      const grid = document.getElementById('projectGrid');
+      if (grid && ps) {
+        grid.innerHTML = ps.length ? ps.map((p,i) => `
+          <article data-category="${String(p.type||'Residential').toLowerCase()}" class="project-card reveal group ${i===0?'md:row-span-2':''}">
+            <div class="h-[360px] ${i===0?'md:h-full min-h-[560px]':''} relative overflow-hidden bg-black/10">
+              ${p.cover_image_url ? `<img src="${p.cover_image_url}" alt="${String(p.name||'Project').replace(/"/g,'&quot;')}" class="absolute inset-0 w-full h-full object-cover">` : ''}
+              <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-7 pt-28">
+                <p class="text-orange text-[10px] tracking-[.25em] uppercase font-bold">${p.type||'Project'}</p>
+                <h3 class="text-white display text-2xl md:text-3xl mt-2">${String(p.name||'Untitled Project').replace(/[&<>"']/g,'')}</h3>
+                <p class="text-white/55 text-sm mt-2">${String(p.location||'')}${p.year?' • '+p.year:''} • ${p.status||''}</p>
+              </div>
+            </div>
+          </article>`).join('') :
+          '<div class="md:col-span-2 text-white/40 text-sm">Projects published from the admin dashboard will appear here.</div>';
+
+        grid.querySelectorAll('.reveal').forEach(el => el.classList.add('show'));
+      }
+
+      const { data: ms } = await sb.from('media')
+        .select('*,projects(name,status)').order('created_at',{ascending:false}).limit(12);
+
+      const mediaHost = document.getElementById('liveMediaGrid');
+      if (mediaHost && ms) {
+        mediaHost.innerHTML = ms.length ? ms.map(m => m.media_type === 'Video'
+          ? `<article class="bg-white border border-black/10 overflow-hidden"><video src="${m.url}" controls class="w-full aspect-video object-cover"></video><div class="p-5"><b>${String(m.title).replace(/[&<>"']/g,'')}</b><p class="text-black/40 text-xs mt-1">${String(m.projects?.name||'')}</p></div></article>`
+          : `<article class="bg-white border border-black/10 overflow-hidden"><img src="${m.url}" alt="" class="w-full aspect-video object-cover"><div class="p-5"><b>${String(m.title).replace(/[&<>"']/g,'')}</b><p class="text-black/40 text-xs mt-1">${String(m.projects?.name||'')}</p></div></article>`
+        ).join('') : '<div class="text-black/40 text-sm">No published media yet.</div>';
+      }
+    }
+
+    if (sb) {
+      loadLivePortfolio();
+      sb.channel('nwa-public-live')
+        .on('postgres_changes',{event:'*',schema:'public',table:'projects'},loadLivePortfolio)
+        .on('postgres_changes',{event:'*',schema:'public',table:'media'},loadLivePortfolio)
+        .subscribe();
+    }
+
+    document.getElementById('year').textContent=new Date().getFullYear();
+  </script>
+
+<script>
+// Privacy-conscious visitor counter: anonymous session ID only. Names are collected separately in the project enquiry form.
+(async function trackVisitor(){
+  try {
+    const cfg=window.SUPABASE_CONFIG||{};
+    if(!cfg.url || cfg.url.includes('YOUR-PROJECT') || !cfg.anonKey || cfg.anonKey.includes('YOUR_SUPABASE') || !window.supabase) return;
+    const analyticsClient=window.supabase.createClient(cfg.url,cfg.anonKey);
+    let sessionId=localStorage.getItem('nwaVisitorSessionId');
+    if(!sessionId){ sessionId=(crypto.randomUUID?crypto.randomUUID():Date.now()+'-'+Math.random()); localStorage.setItem('nwaVisitorSessionId',sessionId); }
+    const last=Number(sessionStorage.getItem('nwaLastPageView')||0);
+    if(Date.now()-last < 30000) return;
+    sessionStorage.setItem('nwaLastPageView',String(Date.now()));
+    await analyticsClient.from('page_views').insert({
+      session_id:sessionId,
+      page_path:location.pathname+location.hash,
+      referrer:document.referrer||null
+    });
+  } catch(e) { console.debug('Visitor analytics unavailable'); }
+})();
+</script>
+</body>
+</html>

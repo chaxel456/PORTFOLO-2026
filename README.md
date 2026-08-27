@@ -651,6 +651,8 @@ while the administrator can:
 
 **Monitor → Manage → Respond → Analyze → Grow**
 
+LINK
+https://nwa-smile-portfolio.netlify.app
 ---
 
 **Built with modern web technologies and designed for real-world production use.**

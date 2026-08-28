@@ -1,182 +1,3232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>N.W.A. SMILE | Admin Dashboard</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script>tailwind.config={theme:{extend:{colors:{ink:'#17191b',orange:'#f47b20',cream:'#f7f5f1'}}}}</script>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>body{font-family:Inter,sans-serif;background:#f5f5f3;color:#17191b}.sidebar-link.active{background:#f47b20;color:#fff}.modal-bg{background:rgba(0,0,0,.65)}.toast{animation:t .25s ease}@keyframes t{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>N.W.A. SMILE | Admin Dashboard</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: "#17191b",
+            orange: "#f47b20",
+            cream: "#f7f5f1"
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    body {
+      font-family: Inter, sans-serif;
+      background: #f5f5f3;
+      color: #17191b;
+    }
+
+    .sidebar-link.active {
+      background: #f47b20;
+      color: white;
+    }
+
+    .modal-bg {
+      background: rgba(0, 0, 0, 0.65);
+    }
+
+    .toast {
+      animation: toastAnimation 0.25s ease;
+    }
+
+    @keyframes toastAnimation {
+      from {
+        transform: translateY(10px);
+        opacity: 0;
+      }
+
+      to {
+        transform: none;
+        opacity: 1;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<div id="loginScreen" class="min-h-screen bg-ink flex items-center justify-center p-5">
- <div class="w-full max-w-md bg-white p-8 sm:p-10 shadow-2xl">
-  <div class="flex items-center gap-3 mb-8"><img src="assets/logo.png" class="w-14 h-14 rounded object-contain"><div><b class="tracking-[.14em]">N.W.A. SMILE</b><div class="text-xs text-black/45 mt-1">SECURE ADMIN PORTAL</div></div></div>
-  <h1 class="text-2xl font-extrabold">Admin sign in</h1><p class="text-sm text-black/50 mt-2 mb-7">Use the admin email and password created in Supabase Authentication.</p>
-  <form id="loginForm" class="space-y-5">
-   <div><label class="text-xs font-bold uppercase tracking-wider">Email</label><input id="loginEmail" type="email" required class="mt-2 w-full border border-black/10 px-4 py-3 outline-none focus:border-orange" placeholder="admin@example.com"></div>
-   <div><label class="text-xs font-bold uppercase tracking-wider">Password</label><input id="loginPassword" type="password" required class="mt-2 w-full border border-black/10 px-4 py-3 outline-none focus:border-orange"></div>
-   <button class="w-full bg-ink text-white py-4 font-bold hover:bg-orange transition">Sign in securely</button>
-   <p id="loginError" class="hidden text-sm text-red-600 font-semibold"></p>
-  </form>
- </div>
-</div>
 
-<div id="app" class="hidden min-h-screen">
-<aside id="sidebar" class="fixed z-40 inset-y-0 left-0 w-64 bg-ink text-white -translate-x-full lg:translate-x-0 transition-transform">
- <div class="h-20 px-6 flex items-center border-b border-white/10"><img src="assets/logo.png" class="w-11 h-11 rounded object-contain"><div class="ml-3"><b class="text-sm tracking-wider">N.W.A. SMILE</b><div class="text-[9px] text-white/40 uppercase">Admin Dashboard</div></div></div>
- <nav class="p-4 space-y-1 text-sm">
-  <button data-view="dashboard" class="sidebar-link active w-full text-left px-4 py-3 rounded font-semibold">▦ &nbsp; Dashboard</button>
-  <button data-view="projects" class="sidebar-link w-full text-left px-4 py-3 rounded font-semibold text-white/70">⌂ &nbsp; Projects</button>
-  <button data-view="media" class="sidebar-link w-full text-left px-4 py-3 rounded font-semibold text-white/70">▶ &nbsp; Media & Videos</button>
-  <button data-view="enquiries" class="sidebar-link w-full text-left px-4 py-3 rounded font-semibold text-white/70">✉ &nbsp; Enquiries <span id="newBadge" class="hidden ml-1 bg-orange text-white px-1.5 py-0.5 text-[9px]">0</span></button>
-  <button data-view="settings" class="sidebar-link w-full text-left px-4 py-3 rounded font-semibold text-white/70">⚙ &nbsp; Settings</button>
- </nav>
- <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-white/10"><a href="index.html" target="_blank" class="block px-4 py-3 text-sm text-white/65 hover:text-white">↗ View Website</a><button id="logoutBtn" class="w-full text-left px-4 py-3 text-sm text-orange font-bold">↪ Sign out</button></div>
-</aside>
-<div id="overlay" class="hidden fixed inset-0 z-30 bg-black/50 lg:hidden"></div>
+  <!-- ================= LOGIN ================= -->
 
-<main class="lg:ml-64 min-h-screen">
-<header class="h-20 bg-white border-b border-black/10 px-5 lg:px-8 flex items-center justify-between sticky top-0 z-20">
- <div class="flex items-center gap-4"><button id="mobileMenu" class="lg:hidden p-2 text-xl">☰</button><div><b id="pageTitle">Dashboard</b><div class="text-xs text-black/40">Live N.W.A. SMILE management centre</div></div></div>
- <div class="flex items-center gap-3"><span id="realtimeStatus" class="hidden sm:flex items-center gap-2 text-xs text-black/40"><i class="w-2 h-2 rounded-full bg-green-500"></i>Live</span><div id="adminEmail" class="hidden md:block text-xs text-black/40"></div><div class="w-10 h-10 bg-orange text-white flex items-center justify-center font-extrabold">A</div></div>
-</header>
-<div class="p-5 lg:p-8">
-<section id="view-dashboard" class="view">
- <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-5">
-  <div class="bg-white p-6 border border-black/5"><div class="text-xs uppercase tracking-wider text-black/40 font-bold">Total Projects</div><div id="statTotal" class="text-4xl font-extrabold mt-3">0</div></div>
-  <div class="bg-white p-6 border border-black/5"><div class="text-xs uppercase tracking-wider text-black/40 font-bold">Published</div><div id="statPublished" class="text-4xl font-extrabold mt-3">0</div></div>
-  <div class="bg-white p-6 border border-black/5"><div class="text-xs uppercase tracking-wider text-black/40 font-bold">Ongoing</div><div id="statOngoing" class="text-4xl font-extrabold mt-3">0</div></div>
-  <div class="bg-ink text-white p-6"><div class="text-xs uppercase tracking-wider text-white/45 font-bold">New Enquiries</div><div id="statEnquiries" class="text-4xl font-extrabold mt-3">0</div></div>
-  <div class="bg-white p-6 border border-black/5"><div class="text-xs uppercase tracking-wider text-black/40 font-bold">Total Visits</div><div id="statVisits" class="text-4xl font-extrabold mt-3">0</div></div>
-  <div class="bg-white p-6 border border-black/5"><div class="text-xs uppercase tracking-wider text-black/40 font-bold">Unique Visitors</div><div id="statUnique" class="text-4xl font-extrabold mt-3">0</div></div>
- </div>
- <div class="mt-7 bg-white border border-black/5">
- <div class="p-6 border-b border-black/10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-  <div><h2 class="font-extrabold text-lg">Visitor Activity</h2><p class="text-xs text-black/40 mt-1">Live website traffic. Visitor names are shown only when someone submits an enquiry.</p></div>
-  <span id="realtimeVisitorStatus" class="hidden text-[10px] font-bold uppercase tracking-wider bg-green-100 text-green-700 px-3 py-2">● Live</span>
- </div>
- <div class="grid md:grid-cols-3 gap-5 p-6 border-b border-black/5">
-  <div><div class="text-xs uppercase tracking-wider text-black/40 font-bold">Page Views</div><div id="analyticsViews" class="text-3xl font-extrabold mt-2">0</div></div>
-  <div><div class="text-xs uppercase tracking-wider text-black/40 font-bold">Unique Visitors</div><div id="analyticsUnique" class="text-3xl font-extrabold mt-2">0</div></div>
-  <div><div class="text-xs uppercase tracking-wider text-black/40 font-bold">Known Visitors</div><div id="analyticsKnown" class="text-3xl font-extrabold mt-2">0</div><div class="text-[11px] text-black/35 mt-1">People who identified themselves through an enquiry</div></div>
- </div>
- <div class="p-6"><div class="flex items-center justify-between mb-4"><h3 class="font-bold">Recent Visitors</h3><span class="text-[11px] text-black/35">Anonymous activity</span></div><div id="visitorList" class="divide-y divide-black/5"></div></div>
-</div>
+  <div
+    id="loginScreen"
+    class="min-h-screen bg-ink flex items-center justify-center p-5"
+  >
 
-<div class="grid xl:grid-cols-[1.4fr_.6fr] gap-6 mt-7">
-  <div class="bg-white border border-black/5"><div class="p-6 border-b border-black/10"><h2 class="font-extrabold text-lg">Recent Projects</h2><p class="text-xs text-black/40 mt-1">Synced live from Supabase</p></div><div id="recentProjects" class="divide-y divide-black/5"></div></div>
-  <div class="bg-ink text-white p-7"><div class="text-orange text-xs tracking-[.25em] font-bold uppercase">Quick action</div><h2 class="text-2xl font-extrabold mt-3">Publish a project</h2><p class="text-white/50 text-sm leading-6 mt-3">Add a building, upload its media and publish it to the public website.</p><button id="quickAdd" class="mt-7 bg-orange px-5 py-3 font-bold text-sm">+ Add Project</button></div>
- </div>
-</section>
+    <div class="w-full max-w-md bg-white p-8 sm:p-10 shadow-2xl">
 
-<section id="view-projects" class="view hidden">
- <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-7"><div><h2 class="text-2xl font-extrabold">Project Library</h2><p class="text-sm text-black/45 mt-1">Create and manage real portfolio content.</p></div><button id="addProject" class="bg-orange text-white px-5 py-3 font-bold text-sm">+ Add New Project</button></div>
- <div class="bg-white border border-black/5 p-4 mb-5 flex flex-col md:flex-row gap-3"><input id="searchProjects" class="flex-1 border border-black/10 px-4 py-3 outline-none focus:border-orange" placeholder="Search projects..."><select id="statusFilter" class="border border-black/10 px-4 py-3"><option value="all">All statuses</option><option>Completed</option><option>Ongoing</option><option>Draft</option></select><select id="typeFilter" class="border border-black/10 px-4 py-3"><option value="all">All types</option><option>Residential</option><option>Commercial</option><option>Institutional</option><option>Renovation</option></select></div>
- <div id="projectTable" class="bg-white border border-black/5 overflow-x-auto"></div>
-</section>
+      <div class="flex items-center gap-3 mb-8">
 
-<section id="view-media" class="view hidden">
- <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-7"><div><h2 class="text-2xl font-extrabold">Media & Videos</h2><p class="text-sm text-black/45 mt-1">Upload real project photos and videos to Supabase Storage.</p></div><button id="addMedia" class="bg-orange text-white px-5 py-3 font-bold text-sm">+ Upload Media</button></div>
- <div id="mediaGrid" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-5"></div>
-</section>
+        <img
+          src="assets/logo.png"
+          class="w-14 h-14 rounded object-contain"
+          alt="N.W.A. SMILE"
+        >
 
-<section id="view-enquiries" class="view hidden">
- <div class="mb-7"><h2 class="text-2xl font-extrabold">Project Enquiries</h2><p class="text-sm text-black/45 mt-1">Visitor enquiries arrive here in realtime.</p></div>
- <div id="enquiryTable" class="bg-white border border-black/5 overflow-x-auto"></div>
-</section>
+        <div>
+          <b class="tracking-[.14em]">
+            N.W.A. SMILE
+          </b>
 
-<section id="view-settings" class="view hidden">
- <div class="max-w-3xl"><h2 class="text-2xl font-extrabold">Settings</h2><p class="text-sm text-black/45 mt-1 mb-7">Public contact details.</p>
- <form id="settingsForm" class="bg-white border border-black/5 p-7 space-y-5"><div><label class="text-xs font-bold uppercase tracking-wider">Company Name</label><input id="setName" class="mt-2 w-full border border-black/10 px-4 py-3"></div><div><label class="text-xs font-bold uppercase tracking-wider">WhatsApp Number</label><input id="setWhatsapp" class="mt-2 w-full border border-black/10 px-4 py-3" placeholder="2348012345678"></div><div><label class="text-xs font-bold uppercase tracking-wider">Enquiry Email</label><input id="setEmail" type="email" class="mt-2 w-full border border-black/10 px-4 py-3"></div><button class="bg-ink text-white px-6 py-3 font-bold">Save Settings</button></form>
- </div>
-</section>
-</div></main></div>
+          <div class="text-xs text-black/45 mt-1">
+            SECURE ADMIN PORTAL
+          </div>
+        </div>
 
-<div id="projectModal" class="hidden fixed inset-0 z-50 modal-bg items-center justify-center p-4"><div class="bg-white w-full max-w-3xl max-h-[92vh] overflow-y-auto">
-<div class="p-6 border-b border-black/10 flex justify-between"><div><h2 id="projectModalTitle" class="text-xl font-extrabold">Add Project</h2><p class="text-xs text-black/40 mt-1">Stored in Supabase database</p></div><button class="close-project text-2xl">×</button></div>
-<form id="projectForm" class="p-6 space-y-5"><input type="hidden" id="projectId">
-<div class="grid sm:grid-cols-2 gap-5"><div><label class="text-xs font-bold uppercase tracking-wider">Project Name *</label><input id="pName" required class="mt-2 w-full border border-black/10 px-4 py-3"></div><div><label class="text-xs font-bold uppercase tracking-wider">Location</label><input id="pLocation" class="mt-2 w-full border border-black/10 px-4 py-3"></div></div>
-<div class="grid sm:grid-cols-3 gap-5"><div><label class="text-xs font-bold uppercase tracking-wider">Type</label><select id="pType" class="mt-2 w-full border border-black/10 px-4 py-3"><option>Residential</option><option>Commercial</option><option>Institutional</option><option>Renovation</option></select></div><div><label class="text-xs font-bold uppercase tracking-wider">Status</label><select id="pStatus" class="mt-2 w-full border border-black/10 px-4 py-3"><option>Completed</option><option>Ongoing</option><option>Draft</option></select></div><div><label class="text-xs font-bold uppercase tracking-wider">Year</label><input id="pYear" type="number" class="mt-2 w-full border border-black/10 px-4 py-3" value="2026"></div></div>
-<div><label class="text-xs font-bold uppercase tracking-wider">Description</label><textarea id="pDescription" rows="4" class="mt-2 w-full border border-black/10 px-4 py-3 resize-none"></textarea></div>
-<div><label class="text-xs font-bold uppercase tracking-wider">Cover image</label><input id="pImageFile" type="file" accept="image/*" class="mt-2 w-full border border-black/10 px-4 py-3"><input id="pImageUrl" type="url" class="mt-2 w-full border border-black/10 px-4 py-3" placeholder="Or paste an existing image URL"></div>
-<label class="flex items-center gap-3 bg-cream p-4 cursor-pointer"><input id="pFeatured" type="checkbox" class="w-5 h-5 accent-orange"><span><b>Featured project</b><span class="block text-xs text-black/45 mt-1">Highlight this project on the public website.</span></span></label>
-<div class="flex justify-end gap-3"><button type="button" class="close-project px-5 py-3 border border-black/10 font-bold">Cancel</button><button class="px-5 py-3 bg-orange text-white font-bold">Save Project</button></div></form></div></div>
+      </div>
 
-<div id="mediaModal" class="hidden fixed inset-0 z-50 modal-bg items-center justify-center p-4"><div class="bg-white w-full max-w-xl">
-<div class="p-6 border-b border-black/10 flex justify-between"><h2 class="text-xl font-extrabold">Upload Media</h2><button class="close-media text-2xl">×</button></div>
-<form id="mediaForm" class="p-6 space-y-5"><div><label class="text-xs font-bold uppercase tracking-wider">Title *</label><input id="mTitle" required class="mt-2 w-full border border-black/10 px-4 py-3"></div>
-<div><label class="text-xs font-bold uppercase tracking-wider">Project</label><select id="mProject" class="mt-2 w-full border border-black/10 px-4 py-3"></select></div>
-<div><label class="text-xs font-bold uppercase tracking-wider">File *</label><input id="mFile" required type="file" accept="image/*,video/*" class="mt-2 w-full border border-black/10 px-4 py-3"></div>
-<p class="text-xs text-black/40">Files are uploaded to the Supabase <b>project-media</b> bucket.</p>
-<div class="flex justify-end gap-3"><button type="button" class="close-media px-5 py-3 border border-black/10 font-bold">Cancel</button><button class="px-5 py-3 bg-orange text-white font-bold">Upload</button></div></form></div></div>
+      <h1 class="text-2xl font-extrabold">
+        Admin sign in
+      </h1>
 
-<div id="toast" class="hidden fixed right-5 bottom-5 z-[60] bg-ink text-white px-5 py-4 shadow-xl text-sm font-semibold"></div>
+      <p class="text-sm text-black/50 mt-2 mb-7">
+        Use the admin email and password created in Supabase Authentication.
+      </p>
 
-<script src="supabase-config.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const cfg=window.SUPABASE_CONFIG||{};
-const client=window.supabase.createClient(cfg.url,cfg.anonKey);
-const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
-let projects=[],media=[],enquiries=[],visitorRows=[];
+      <form id="loginForm" class="space-y-5">
 
-function toast(m){const t=$('#toast');t.textContent=m;t.classList.remove('hidden');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.add('hidden'),3000)}
-function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
-function statusClass(s){return s==='Completed'?'bg-green-100 text-green-700':s==='Ongoing'?'bg-orange/10 text-orange':'bg-black/5 text-black/50'}
-function configured(){return cfg.url&&!cfg.url.includes('YOUR-PROJECT')&&cfg.anonKey&&!cfg.anonKey.includes('YOUR_SUPABASE')}
-function showApp(user){$('#loginScreen').classList.add('hidden');$('#app').classList.remove('hidden');$('#adminEmail').textContent=user?.email||'';loadAll();subscribeRealtime()}
-function openView(v){$$('.view').forEach(x=>x.classList.add('hidden'));$('#view-'+v).classList.remove('hidden');$$('.sidebar-link').forEach(b=>b.classList.toggle('active',b.dataset.view===v));$('#pageTitle').textContent={dashboard:'Dashboard',projects:'Project Library',media:'Media & Videos',enquiries:'Project Enquiries',settings:'Settings'}[v];if(v==='projects')renderProjects();if(v==='media')renderMedia();if(v==='enquiries')renderEnquiries();if(v==='settings')loadSettings();$('#sidebar').classList.add('-translate-x-full');$('#overlay').classList.add('hidden')}
-async function loadAll(){await Promise.all([loadProjects(),loadMedia(),loadEnquiries(),loadVisitorAnalytics()]);updateStats();renderRecent()}
-async function loadVisitorAnalytics(){
-  const r=await client.from('page_views').select('id,session_id,page_path,referrer,created_at').order('created_at',{ascending:false}).limit(30);
-  if(r.error){toast(r.error.message);return}
-  visitorRows=r.data||[];
-  const unique=new Set(visitorRows.map(v=>v.session_id)).size;
-  // Fetch a larger sample for accurate unique count when possible.
-  const all=await client.from('page_views').select('session_id',{count:'exact'});
-  const allRows=all.data||[];
-  const uniqueAll=new Set(allRows.map(v=>v.session_id)).size;
-  const views=all.count ?? visitorRows.length;
-  const known=new Set(enquiries.map(e=>(e.email||e.phone||e.name||'').toLowerCase()).filter(Boolean)).size;
-  $('#statVisits').textContent=views; $('#statUnique').textContent=uniqueAll||unique;
-  $('#analyticsViews').textContent=views; $('#analyticsUnique').textContent=uniqueAll||unique; $('#analyticsKnown').textContent=known;
-  renderVisitors();
-}
-function renderVisitors(){
-  $('#visitorList').innerHTML=visitorRows.length?visitorRows.slice(0,12).map(v=>`<div class="py-3 flex items-center justify-between gap-4"><div><div class="font-semibold text-sm">Anonymous visitor</div><div class="text-xs text-black/40 mt-1">${esc(v.page_path)}${v.referrer?' · from '+esc(v.referrer):''}</div></div><div class="text-[11px] text-black/35 whitespace-nowrap">${new Date(v.created_at).toLocaleString()}</div></div>`).join(''):'<div class="text-sm text-black/40 py-4">No visits recorded yet.</div>';
-}
-async function loadProjects(){const r=await client.from('projects').select('*').order('created_at',{ascending:false});if(r.error){toast(r.error.message);return}projects=r.data||[];updateStats();renderRecent();if(!$('#view-projects').classList.contains('hidden'))renderProjects();populateMediaProjects()}
-async function loadMedia(){const r=await client.from('media').select('*,projects(name)').order('created_at',{ascending:false});if(r.error){toast(r.error.message);return}media=r.data||[];updateStats();renderMedia()}
-async function loadEnquiries(){const r=await client.from('enquiries').select('*').order('created_at',{ascending:false});if(r.error){toast(r.error.message);return}enquiries=r.data||[];updateStats();renderEnquiries()}
-function updateStats(){$('#statTotal').textContent=projects.length;$('#statPublished').textContent=projects.filter(p=>p.status!=='Draft').length;$('#statOngoing').textContent=projects.filter(p=>p.status==='Ongoing').length;const n=enquiries.filter(e=>e.status==='New').length;$('#statEnquiries').textContent=n;$('#newBadge').textContent=n;$('#newBadge').classList.toggle('hidden',!n)}
-function renderRecent(){const a=projects.slice(0,5);$('#recentProjects').innerHTML=a.length?a.map(p=>`<div class="p-5 flex items-center gap-4"><div class="w-14 h-14 bg-black/5 overflow-hidden flex-shrink-0">${p.cover_image_url?`<img src="${esc(p.cover_image_url)}" class="w-full h-full object-cover">`:''}</div><div class="min-w-0 flex-1"><div class="font-bold truncate">${esc(p.name)}</div><div class="text-xs text-black/40 mt-1">${esc(p.location||'No location')} · ${esc(p.type)}</div></div><span class="text-[10px] font-bold px-2 py-1 ${statusClass(p.status)}">${esc(p.status)}</span></div>`).join(''):'<div class="p-8 text-sm text-black/40">No projects yet.</div>'}
-function renderProjects(){const q=$('#searchProjects').value.toLowerCase(),st=$('#statusFilter').value,ty=$('#typeFilter').value;const rows=projects.filter(p=>(p.name+' '+(p.location||'')+' '+(p.description||'')).toLowerCase().includes(q)&&(st==='all'||p.status===st)&&(ty==='all'||p.type===ty));$('#projectTable').innerHTML=`<table class="w-full text-left min-w-[900px]"><thead class="bg-cream text-[10px] uppercase tracking-wider"><tr><th class="p-4">Project</th><th>Type</th><th>Status</th><th>Year</th><th>Featured</th><th class="p-4">Actions</th></tr></thead><tbody class="divide-y divide-black/5">${rows.length?rows.map(p=>`<tr><td class="p-4"><div class="flex items-center gap-3"><div class="w-12 h-12 bg-black/5 overflow-hidden">${p.cover_image_url?`<img src="${esc(p.cover_image_url)}" class="w-full h-full object-cover">`:''}</div><div><b>${esc(p.name)}</b><div class="text-xs text-black/40">${esc(p.location||'')}</div></div></div></td><td>${esc(p.type)}</td><td><span class="text-[10px] font-bold px-2 py-1 ${statusClass(p.status)}">${esc(p.status)}</span></td><td>${esc(p.year||'—')}</td><td>${p.featured?'★':'—'}</td><td class="p-4"><div class="flex gap-2"><button onclick="editProject('${p.id}')" class="text-xs font-bold px-3 py-2 border border-black/10">Edit</button><button onclick="deleteProject('${p.id}')" class="text-xs font-bold px-3 py-2 bg-black text-white">Delete</button></div></td></tr>`).join(''):'<tr><td colspan="6" class="p-10 text-center text-sm text-black/40">No matching projects.</td></tr>'}</tbody></table>`}
-function renderMedia(){ $('#mediaGrid').innerHTML=media.length?media.map(m=>`<article class="bg-white border border-black/5 overflow-hidden"><div class="h-48 bg-ink relative">${m.media_type==='Photo'?`<img src="${esc(m.url)}" class="w-full h-full object-cover">`:`<video src="${esc(m.url)}" class="w-full h-full object-cover" controls></video>`}<span class="absolute top-3 left-3 bg-orange text-white text-[10px] font-bold px-2 py-1">${esc(m.media_type)}</span></div><div class="p-5"><b>${esc(m.title)}</b><p class="text-xs text-black/40 mt-1">${esc(m.projects?.name||'Unassigned')}</p><button onclick="deleteMedia('${m.id}','${esc(m.storage_path||'')}')" class="mt-4 text-xs font-bold text-red-600">Remove</button></div></article>`).join(''):'<div class="sm:col-span-2 xl:col-span-3 bg-white p-12 text-center text-sm text-black/40">No media uploaded yet.</div>'}
-function renderEnquiries(){const rows=enquiries;$('#enquiryTable').innerHTML=`<table class="w-full text-left min-w-[900px]"><thead class="bg-cream text-[10px] uppercase tracking-wider"><tr><th class="p-4">Visitor</th><th>Project</th><th>Location</th><th>Message</th><th>Status</th><th class="p-4">Action</th></tr></thead><tbody class="divide-y divide-black/5">${rows.length?rows.map(e=>`<tr><td class="p-4"><b>${esc(e.name)}</b><div class="text-xs text-black/40">${esc(e.email||'')}<br>${esc(e.phone||'')}</div></td><td>${esc(e.project_type||'—')}</td><td>${esc(e.location||'—')}</td><td class="max-w-sm text-sm">${esc(e.message)}</td><td><span class="text-[10px] font-bold px-2 py-1 ${e.status==='New'?'bg-orange/10 text-orange':'bg-black/5 text-black/50'}">${esc(e.status)}</span></td><td class="p-4"><button onclick="markEnquiry('${e.id}')" class="text-xs font-bold border border-black/10 px-3 py-2">${e.status==='New'?'Mark Contacted':'Reopen'}</button></td></tr>`).join(''):'<tr><td colspan="6" class="p-10 text-center text-sm text-black/40">No enquiries yet.</td></tr>'}</tbody></table>`}
-function populateMediaProjects(){$('#mProject').innerHTML='<option value="">Unassigned</option>'+projects.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('')}
-async function uploadFile(file){const path=`${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g,'_')}`;const r=await client.storage.from('project-media').upload(path,file,{upsert:false});if(r.error)throw r.error;return {path,url:client.storage.from('project-media').getPublicUrl(path).data.publicUrl}}
-function openProject(p){$('#projectModalTitle').textContent=p?'Edit Project':'Add Project';$('#projectId').value=p?.id||'';$('#pName').value=p?.name||'';$('#pLocation').value=p?.location||'';$('#pType').value=p?.type||'Residential';$('#pStatus').value=p?.status||'Ongoing';$('#pYear').value=p?.year||2026;$('#pDescription').value=p?.description||'';$('#pImageUrl').value=p?.cover_image_url||'';$('#pImageFile').value='';$('#pFeatured').checked=!!p?.featured;$('#projectModal').classList.remove('hidden');$('#projectModal').classList.add('flex')}
-window.editProject=id=>openProject(projects.find(p=>p.id===id));
-window.deleteProject=async id=>{if(!confirm('Delete this project and its linked media records?'))return;const r=await client.from('projects').delete().eq('id',id);if(r.error)return toast(r.error.message);toast('Project deleted');await loadAll()};
-window.deleteMedia=async(id,path)=>{if(!confirm('Remove this media?'))return;let r=await client.from('media').delete().eq('id',id);if(r.error)return toast(r.error.message);if(path)await client.storage.from('project-media').remove([path]);toast('Media removed');await loadMedia()};
-window.markEnquiry=async id=>{const e=enquiries.find(x=>x.id===id);const next=e.status==='New'?'Contacted':'New';const r=await client.from('enquiries').update({status:next}).eq('id',id);if(r.error)return toast(r.error.message);await loadEnquiries();toast('Enquiry updated')};
+        <div>
 
-$('#loginForm').addEventListener('submit',async e=>{e.preventDefault();if(!configured())return $('#loginError').textContent='Add your Supabase URL and anon/publishable key to supabase-config.js first.';$('#loginError').classList.add('hidden');const r=await client.auth.signInWithPassword({email:$('#loginEmail').value,password:$('#loginPassword').value});if(r.error){$('#loginError').textContent=r.error.message;$('#loginError').classList.remove('hidden');return}showApp(r.data.user)});
-$('#logoutBtn').onclick=async()=>{await client.auth.signOut();location.reload()};
-$$('.sidebar-link').forEach(b=>b.onclick=()=>openView(b.dataset.view));
-$('#quickAdd').onclick=()=>openProject();$('#addProject').onclick=()=>openProject();
-$$('.close-project').forEach(b=>b.onclick=()=>$('#projectModal').classList.add('hidden'));
-$('#projectForm').addEventListener('submit',async e=>{e.preventDefault();const btn=e.submitter;btn.disabled=true;try{let image=$('#pImageUrl').value.trim();const f=$('#pImageFile').files[0];if(f){const uploaded=await uploadFile(f);image=uploaded.url;}const payload={name:$('#pName').value.trim(),location:$('#pLocation').value.trim(),type:$('#pType').value,status:$('#pStatus').value,year:Number($('#pYear').value)||null,description:$('#pDescription').value.trim(),cover_image_url:image||null,featured:$('#pFeatured').checked};const id=$('#projectId').value;const r=id?await client.from('projects').update(payload).eq('id',id):await client.from('projects').insert(payload);if(r.error)throw r.error;$('#projectModal').classList.add('hidden');toast(id?'Project updated':'Project published to database');await loadProjects()}catch(err){toast(err.message)}finally{btn.disabled=false}});
-$('#addMedia').onclick=()=>{$('#mediaModal').classList.remove('hidden');$('#mediaModal').classList.add('flex');populateMediaProjects()};
-$$('.close-media').forEach(b=>b.onclick=()=>$('#mediaModal').classList.add('hidden'));
-$('#mediaForm').addEventListener('submit',async e=>{e.preventDefault();const btn=e.submitter;btn.disabled=true;try{const f=$('#mFile').files[0];if(!f)throw Error('Choose a file');const uploaded=await uploadFile(f);const type=f.type.startsWith('video/')?'Video':'Photo';const r=await client.from('media').insert({title:$('#mTitle').value.trim(),project_id:$('#mProject').value||null,media_type:type,url:uploaded.url,storage_path:uploaded.path});if(r.error)throw r.error;$('#mediaForm').reset();$('#mediaModal').classList.add('hidden');toast('Media uploaded');await loadMedia()}catch(err){toast(err.message)}finally{btn.disabled=false}});
-['searchProjects','statusFilter','typeFilter'].forEach(id=>$('#'+id).addEventListener('input',renderProjects));
-$('#settingsForm').addEventListener('submit',async e=>{e.preventDefault();const r=await client.from('site_settings').update({company_name:$('#setName').value.trim(),whatsapp:$('#setWhatsapp').value.trim(),enquiry_email:$('#setEmail').value.trim()}).eq('id',1);if(r.error)return toast(r.error.message);toast('Settings saved')});
-async function loadSettings(){const r=await client.from('site_settings').select('*').eq('id',1).single();if(r.data){$('#setName').value=r.data.company_name||'';$('#setWhatsapp').value=r.data.whatsapp||'';$('#setEmail').value=r.data.enquiry_email||''}}
-$('#mobileMenu').onclick=()=>{$('#sidebar').classList.remove('-translate-x-full');$('#overlay').classList.remove('hidden')};$('#overlay').onclick=()=>{$('#sidebar').classList.add('-translate-x-full');$('#overlay').classList.add('hidden')};
-function subscribeRealtime(){client.channel('nwa-smile-live').on('postgres_changes',{event:'*',schema:'public',table:'projects'},()=>loadProjects()).on('postgres_changes',{event:'*',schema:'public',table:'media'},()=>loadMedia()).on('postgres_changes',{event:'*',schema:'public',table:'enquiries'},()=>loadEnquiries()).on('postgres_changes',{event:'INSERT',schema:'public',table:'page_views'},()=>loadVisitorAnalytics()).subscribe(s=>{if(s==='SUBSCRIBED')$('#realtimeStatus').classList.remove('hidden')})}
-(async()=>{if(!configured()){console.warn('Supabase is not configured yet.');return}const r=await client.auth.getSession();if(r.data.session)showApp(r.data.session.user)})();
-</script>
-</body></html>
+          <label class="text-xs font-bold uppercase tracking-wider">
+            Email
+          </label>
+
+          <input
+            id="loginEmail"
+            type="email"
+            required
+            class="mt-2 w-full border border-black/10 px-4 py-3 outline-none focus:border-orange"
+            placeholder="admin@example.com"
+          >
+
+        </div>
+
+        <div>
+
+          <label class="text-xs font-bold uppercase tracking-wider">
+            Password
+          </label>
+
+          <input
+            id="loginPassword"
+            type="password"
+            required
+            class="mt-2 w-full border border-black/10 px-4 py-3 outline-none focus:border-orange"
+          >
+
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-ink text-white py-4 font-bold hover:bg-orange transition"
+        >
+          Sign in securely
+        </button>
+
+        <p
+          id="loginError"
+          class="hidden text-sm text-red-600 font-semibold"
+        ></p>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= APPLICATION ================= -->
+
+  <div id="app" class="hidden min-h-screen">
+
+    <!-- SIDEBAR -->
+
+    <aside
+      id="sidebar"
+      class="fixed z-40 inset-y-0 left-0 w-64 bg-ink text-white
+      -translate-x-full lg:translate-x-0 transition-transform"
+    >
+
+      <div class="h-20 px-6 flex items-center border-b border-white/10">
+
+        <img
+          src="assets/logo.png"
+          class="w-11 h-11 rounded object-contain"
+          alt="N.W.A. SMILE"
+        >
+
+        <div class="ml-3">
+
+          <b class="text-sm tracking-wider">
+            N.W.A. SMILE
+          </b>
+
+          <div class="text-[9px] text-white/40 uppercase">
+            Admin Dashboard
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <nav class="p-4 space-y-1 text-sm">
+
+        <button
+          data-view="dashboard"
+          class="sidebar-link active w-full text-left px-4 py-3 rounded font-semibold"
+        >
+          ▦ &nbsp; Dashboard
+        </button>
+
+        <button
+          data-view="projects"
+          class="sidebar-link w-full text-left px-4 py-3 rounded font-semibold text-white/70"
+        >
+          ⌂ &nbsp; Projects
+        </button>
+
+        <button
+          data-view="media"
+          class="sidebar-link w-full text-left px-4 py-3 rounded font-semibold text-white/70"
+        >
+          ▶ &nbsp; Media & Videos
+        </button>
+
+        <button
+          data-view="enquiries"
+          class="sidebar-link w-full text-left px-4 py-3 rounded font-semibold text-white/70"
+        >
+          ✉ &nbsp; Enquiries
+
+          <span
+            id="newBadge"
+            class="hidden ml-1 bg-orange text-white px-1.5 py-0.5 text-[9px]"
+          >
+            0
+          </span>
+
+        </button>
+
+        <button
+          data-view="settings"
+          class="sidebar-link w-full text-left px-4 py-3 rounded font-semibold text-white/70"
+        >
+          ⚙ &nbsp; Settings
+        </button>
+
+      </nav>
+
+
+      <div
+        class="absolute bottom-0 left-0 right-0 p-4 border-t border-white/10"
+      >
+
+        <a
+          href="index.html"
+          target="_blank"
+          class="block px-4 py-3 text-sm text-white/65 hover:text-white"
+        >
+          ↗ View Website
+        </a>
+
+        <button
+          id="logoutBtn"
+          class="w-full text-left px-4 py-3 text-sm text-orange font-bold"
+        >
+          ↪ Sign out
+        </button>
+
+      </div>
+
+    </aside>
+
+
+    <div
+      id="overlay"
+      class="hidden fixed inset-0 z-30 bg-black/50 lg:hidden"
+    ></div>
+
+
+    <!-- MAIN -->
+
+    <main class="lg:ml-64 min-h-screen">
+
+      <header
+        class="h-20 bg-white border-b border-black/10 px-5 lg:px-8
+        flex items-center justify-between sticky top-0 z-20"
+      >
+
+        <div class="flex items-center gap-4">
+
+          <button
+            id="mobileMenu"
+            class="lg:hidden p-2 text-xl"
+          >
+            ☰
+          </button>
+
+          <div>
+
+            <b id="pageTitle">
+              Dashboard
+            </b>
+
+            <div class="text-xs text-black/40">
+              Live N.W.A. SMILE management centre
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="flex items-center gap-3">
+
+          <span
+            id="realtimeStatus"
+            class="hidden sm:flex items-center gap-2 text-xs text-black/40"
+          >
+            <i class="w-2 h-2 rounded-full bg-green-500"></i>
+            Live
+          </span>
+
+          <div
+            id="adminEmail"
+            class="hidden md:block text-xs text-black/40"
+          ></div>
+
+          <div
+            class="w-10 h-10 bg-orange text-white flex items-center justify-center font-extrabold"
+          >
+            A
+          </div>
+
+        </div>
+
+      </header>
+
+
+      <div class="p-5 lg:p-8">
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section id="view-dashboard" class="view">
+
+          <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-5">
+
+            <div class="bg-white p-6 border border-black/5">
+
+              <div class="text-xs uppercase tracking-wider text-black/40 font-bold">
+                Total Projects
+              </div>
+
+              <div id="statTotal" class="text-4xl font-extrabold mt-3">
+                0
+              </div>
+
+            </div>
+
+
+            <div class="bg-white p-6 border border-black/5">
+
+              <div class="text-xs uppercase tracking-wider text-black/40 font-bold">
+                Published
+              </div>
+
+              <div id="statPublished" class="text-4xl font-extrabold mt-3">
+                0
+              </div>
+
+            </div>
+
+
+            <div class="bg-white p-6 border border-black/5">
+
+              <div class="text-xs uppercase tracking-wider text-black/40 font-bold">
+                Ongoing
+              </div>
+
+              <div id="statOngoing" class="text-4xl font-extrabold mt-3">
+                0
+              </div>
+
+            </div>
+
+
+            <div class="bg-ink text-white p-6">
+
+              <div class="text-xs uppercase tracking-wider text-white/45 font-bold">
+                New Enquiries
+              </div>
+
+              <div id="statEnquiries" class="text-4xl font-extrabold mt-3">
+                0
+              </div>
+
+            </div>
+
+
+            <div class="bg-white p-6 border border-black/5">
+
+              <div class="text-xs uppercase tracking-wider text-black/40 font-bold">
+                Total Visits
+              </div>
+
+              <div id="statVisits" class="text-4xl font-extrabold mt-3">
+                0
+              </div>
+
+            </div>
+
+
+            <div class="bg-white p-6 border border-black/5">
+
+              <div class="text-xs uppercase tracking-wider text-black/40 font-bold">
+                Unique Visitors
+              </div>
+
+              <div id="statUnique" class="text-4xl font-extrabold mt-3">
+                0
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- VISITOR ACTIVITY -->
+
+          <div class="mt-7 bg-white border border-black/5">
+
+            <div
+              class="p-6 border-b border-black/10 flex flex-col sm:flex-row
+              sm:items-center sm:justify-between gap-3"
+            >
+
+              <div>
+
+                <h2 class="font-extrabold text-lg">
+                  Visitor Activity
+                </h2>
+
+                <p class="text-xs text-black/40 mt-1">
+                  Live website traffic. Visitor names are shown only when someone submits an enquiry.
+                </p>
+
+              </div>
+
+              <span
+                id="realtimeVisitorStatus"
+                class="hidden text-[10px] font-bold uppercase tracking-wider
+                bg-green-100 text-green-700 px-3 py-2"
+              >
+                ● Live
+              </span>
+
+            </div>
+
+
+            <div class="grid md:grid-cols-3 gap-5 p-6 border-b border-black/5">
+
+              <div>
+
+                <div class="text-xs uppercase tracking-wider text-black/40 font-bold">
+                  Page Views
+                </div>
+
+                <div
+                  id="analyticsViews"
+                  class="text-3xl font-extrabold mt-2"
+                >
+                  0
+                </div>
+
+              </div>
+
+
+              <div>
+
+                <div class="text-xs uppercase tracking-wider text-black/40 font-bold">
+                  Unique Visitors
+                </div>
+
+                <div
+                  id="analyticsUnique"
+                  class="text-3xl font-extrabold mt-2"
+                >
+                  0
+                </div>
+
+              </div>
+
+
+              <div>
+
+                <div class="text-xs uppercase tracking-wider text-black/40 font-bold">
+                  Known Visitors
+                </div>
+
+                <div
+                  id="analyticsKnown"
+                  class="text-3xl font-extrabold mt-2"
+                >
+                  0
+                </div>
+
+                <div class="text-[11px] text-black/35 mt-1">
+                  People who identified themselves through an enquiry
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="p-6">
+
+              <div class="flex items-center justify-between mb-4">
+
+                <h3 class="font-bold">
+                  Recent Visitors
+                </h3>
+
+                <span class="text-[11px] text-black/35">
+                  Anonymous activity
+                </span>
+
+              </div>
+
+              <div
+                id="visitorList"
+                class="divide-y divide-black/5"
+              ></div>
+
+            </div>
+
+          </div>
+
+
+          <!-- RECENT PROJECTS -->
+
+          <div class="grid xl:grid-cols-[1.4fr_.6fr] gap-6 mt-7">
+
+            <div class="bg-white border border-black/5">
+
+              <div class="p-6 border-b border-black/10">
+
+                <h2 class="font-extrabold text-lg">
+                  Recent Projects
+                </h2>
+
+                <p class="text-xs text-black/40 mt-1">
+                  Synced live from Supabase
+                </p>
+
+              </div>
+
+              <div
+                id="recentProjects"
+                class="divide-y divide-black/5"
+              ></div>
+
+            </div>
+
+
+            <div class="bg-ink text-white p-7">
+
+              <div class="text-orange text-xs tracking-[.25em] font-bold uppercase">
+                Quick action
+              </div>
+
+              <h2 class="text-2xl font-extrabold mt-3">
+                Publish a project
+              </h2>
+
+              <p class="text-white/50 text-sm leading-6 mt-3">
+                Add a building, upload its media and publish it to the public website.
+              </p>
+
+              <button
+                id="quickAdd"
+                class="mt-7 bg-orange px-5 py-3 font-bold text-sm"
+              >
+                + Add Project
+              </button>
+
+            </div>
+
+          </div>
+
+        </section>
+
+
+        <!-- ================= PROJECTS ================= -->
+
+        <section id="view-projects" class="view hidden">
+
+          <div
+            class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-7"
+          >
+
+            <div>
+
+              <h2 class="text-2xl font-extrabold">
+                Project Library
+              </h2>
+
+              <p class="text-sm text-black/45 mt-1">
+                Create and manage real portfolio content.
+              </p>
+
+            </div>
+
+            <button
+              id="addProject"
+              class="bg-orange text-white px-5 py-3 font-bold text-sm"
+            >
+              + Add New Project
+            </button>
+
+          </div>
+
+
+          <div
+            class="bg-white border border-black/5 p-4 mb-5
+            flex flex-col md:flex-row gap-3"
+          >
+
+            <input
+              id="searchProjects"
+              class="flex-1 border border-black/10 px-4 py-3 outline-none focus:border-orange"
+              placeholder="Search projects..."
+            >
+
+            <select
+              id="statusFilter"
+              class="border border-black/10 px-4 py-3"
+            >
+              <option value="all">All statuses</option>
+              <option>Completed</option>
+              <option>Ongoing</option>
+              <option>Draft</option>
+            </select>
+
+            <select
+              id="typeFilter"
+              class="border border-black/10 px-4 py-3"
+            >
+              <option value="all">All types</option>
+              <option>Residential</option>
+              <option>Commercial</option>
+              <option>Institutional</option>
+              <option>Renovation</option>
+            </select>
+
+          </div>
+
+
+          <div
+            id="projectTable"
+            class="bg-white border border-black/5 overflow-x-auto"
+          ></div>
+
+        </section>
+
+
+        <!-- ================= MEDIA ================= -->
+
+        <section id="view-media" class="view hidden">
+
+          <div
+            class="flex flex-col sm:flex-row sm:items-end
+            justify-between gap-4 mb-7"
+          >
+
+            <div>
+
+              <h2 class="text-2xl font-extrabold">
+                Media & Videos
+              </h2>
+
+              <p class="text-sm text-black/45 mt-1">
+                Upload real project photos and videos to Supabase Storage.
+              </p>
+
+            </div>
+
+            <button
+              id="addMedia"
+              class="bg-orange text-white px-5 py-3 font-bold text-sm"
+            >
+              + Upload Media
+            </button>
+
+          </div>
+
+
+          <div
+            id="mediaGrid"
+            class="grid sm:grid-cols-2 xl:grid-cols-3 gap-5"
+          ></div>
+
+        </section>
+
+
+        <!-- ================= ENQUIRIES ================= -->
+
+        <section id="view-enquiries" class="view hidden">
+
+          <div class="mb-7">
+
+            <h2 class="text-2xl font-extrabold">
+              Project Enquiries
+            </h2>
+
+            <p class="text-sm text-black/45 mt-1">
+              Visitor enquiries arrive here in realtime.
+            </p>
+
+          </div>
+
+          <div
+            id="enquiryTable"
+            class="bg-white border border-black/5 overflow-x-auto"
+          ></div>
+
+        </section>
+
+
+        <!-- ================= SETTINGS ================= -->
+
+        <section id="view-settings" class="view hidden">
+
+          <div class="max-w-3xl">
+
+            <h2 class="text-2xl font-extrabold">
+              Settings
+            </h2>
+
+            <p class="text-sm text-black/45 mt-1 mb-7">
+              Public contact details.
+            </p>
+
+
+            <form
+              id="settingsForm"
+              class="bg-white border border-black/5 p-7 space-y-5"
+            >
+
+              <div>
+
+                <label class="text-xs font-bold uppercase tracking-wider">
+                  Company Name
+                </label>
+
+                <input
+                  id="setName"
+                  class="mt-2 w-full border border-black/10 px-4 py-3"
+                >
+
+              </div>
+
+
+              <div>
+
+                <label class="text-xs font-bold uppercase tracking-wider">
+                  WhatsApp Number
+                </label>
+
+                <input
+                  id="setWhatsapp"
+                  class="mt-2 w-full border border-black/10 px-4 py-3"
+                  placeholder="2348012345678"
+                >
+
+              </div>
+
+
+              <div>
+
+                <label class="text-xs font-bold uppercase tracking-wider">
+                  Enquiry Email
+                </label>
+
+                <input
+                  id="setEmail"
+                  type="email"
+                  class="mt-2 w-full border border-black/10 px-4 py-3"
+                >
+
+              </div>
+
+
+              <button
+                type="submit"
+                class="bg-ink text-white px-6 py-3 font-bold"
+              >
+                Save Settings
+              </button>
+
+            </form>
+
+          </div>
+
+        </section>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+  <!-- ================= PROJECT MODAL ================= -->
+
+  <div
+    id="projectModal"
+    class="hidden fixed inset-0 z-50 modal-bg
+    items-center justify-center p-4"
+  >
+
+    <div
+      class="bg-white w-full max-w-3xl max-h-[92vh] overflow-y-auto"
+    >
+
+      <div
+        class="p-6 border-b border-black/10 flex justify-between"
+      >
+
+        <div>
+
+          <h2
+            id="projectModalTitle"
+            class="text-xl font-extrabold"
+          >
+            Add Project
+          </h2>
+
+          <p class="text-xs text-black/40 mt-1">
+            Stored in Supabase database
+          </p>
+
+        </div>
+
+        <button
+          class="close-project text-2xl"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <form
+        id="projectForm"
+        class="p-6 space-y-5"
+      >
+
+        <input
+          type="hidden"
+          id="projectId"
+        >
+
+
+        <div class="grid sm:grid-cols-2 gap-5">
+
+          <div>
+
+            <label class="text-xs font-bold uppercase tracking-wider">
+              Project Name *
+            </label>
+
+            <input
+              id="pName"
+              required
+              class="mt-2 w-full border border-black/10 px-4 py-3"
+            >
+
+          </div>
+
+
+          <div>
+
+            <label class="text-xs font-bold uppercase tracking-wider">
+              Location
+            </label>
+
+            <input
+              id="pLocation"
+              class="mt-2 w-full border border-black/10 px-4 py-3"
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="grid sm:grid-cols-3 gap-5">
+
+          <div>
+
+            <label class="text-xs font-bold uppercase tracking-wider">
+              Type
+            </label>
+
+            <select
+              id="pType"
+              class="mt-2 w-full border border-black/10 px-4 py-3"
+            >
+              <option>Residential</option>
+              <option>Commercial</option>
+              <option>Institutional</option>
+              <option>Renovation</option>
+            </select>
+
+          </div>
+
+
+          <div>
+
+            <label class="text-xs font-bold uppercase tracking-wider">
+              Status
+            </label>
+
+            <select
+              id="pStatus"
+              class="mt-2 w-full border border-black/10 px-4 py-3"
+            >
+              <option>Completed</option>
+              <option>Ongoing</option>
+              <option>Draft</option>
+            </select>
+
+          </div>
+
+
+          <div>
+
+            <label class="text-xs font-bold uppercase tracking-wider">
+              Year
+            </label>
+
+            <input
+              id="pYear"
+              type="number"
+              class="mt-2 w-full border border-black/10 px-4 py-3"
+              value="2026"
+            >
+
+          </div>
+
+        </div>
+
+
+        <div>
+
+          <label class="text-xs font-bold uppercase tracking-wider">
+            Description
+          </label>
+
+          <textarea
+            id="pDescription"
+            rows="4"
+            class="mt-2 w-full border border-black/10 px-4 py-3 resize-none"
+          ></textarea>
+
+        </div>
+
+
+        <div>
+
+          <label class="text-xs font-bold uppercase tracking-wider">
+            Cover image
+          </label>
+
+          <input
+            id="pImageFile"
+            type="file"
+            accept="image/*"
+            class="mt-2 w-full border border-black/10 px-4 py-3"
+          >
+
+          <input
+            id="pImageUrl"
+            type="url"
+            class="mt-2 w-full border border-black/10 px-4 py-3"
+            placeholder="Or paste an existing image URL"
+          >
+
+        </div>
+
+
+        <label
+          class="flex items-center gap-3 bg-cream p-4 cursor-pointer"
+        >
+
+          <input
+            id="pFeatured"
+            type="checkbox"
+            class="w-5 h-5"
+          >
+
+          <span>
+
+            <b>Featured project</b>
+
+            <span class="block text-xs text-black/45 mt-1">
+              Highlight this project on the public website.
+            </span>
+
+          </span>
+
+        </label>
+
+
+        <div class="flex justify-end gap-3">
+
+          <button
+            type="button"
+            class="close-project px-5 py-3 border border-black/10 font-bold"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="px-5 py-3 bg-orange text-white font-bold"
+          >
+            Save Project
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================= MEDIA MODAL ================= -->
+
+  <div
+    id="mediaModal"
+    class="hidden fixed inset-0 z-50 modal-bg
+    items-center justify-center p-4"
+  >
+
+    <div class="bg-white w-full max-w-xl">
+
+      <div
+        class="p-6 border-b border-black/10 flex justify-between"
+      >
+
+        <h2 class="text-xl font-extrabold">
+          Upload Media
+        </h2>
+
+        <button class="close-media text-2xl">
+          ×
+        </button>
+
+      </div>
+
+
+      <form
+        id="mediaForm"
+        class="p-6 space-y-5"
+      >
+
+        <div>
+
+          <label class="text-xs font-bold uppercase tracking-wider">
+            Title *
+          </label>
+
+          <input
+            id="mTitle"
+            required
+            class="mt-2 w-full border border-black/10 px-4 py-3"
+          >
+
+        </div>
+
+
+        <div>
+
+          <label class="text-xs font-bold uppercase tracking-wider">
+            Project
+          </label>
+
+          <select
+            id="mProject"
+            class="mt-2 w-full border border-black/10 px-4 py-3"
+          ></select>
+
+        </div>
+
+
+        <div>
+
+          <label class="text-xs font-bold uppercase tracking-wider">
+            File *
+          </label>
+
+          <input
+            id="mFile"
+            required
+            type="file"
+            accept="image/*,video/*"
+            class="mt-2 w-full border border-black/10 px-4 py-3"
+          >
+
+        </div>
+
+
+        <p class="text-xs text-black/40">
+          Files are uploaded to the Supabase
+          <b>project-media</b>
+          bucket.
+        </p>
+
+
+        <div class="flex justify-end gap-3">
+
+          <button
+            type="button"
+            class="close-media px-5 py-3 border border-black/10 font-bold"
+          >
+            Cancel
+          </button>
+
+          <button
+            type="submit"
+            class="px-5 py-3 bg-orange text-white font-bold"
+          >
+            Upload
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+  <!-- TOAST -->
+
+  <div
+    id="toast"
+    class="hidden fixed right-5 bottom-5 z-[60]
+    bg-ink text-white px-5 py-4 shadow-xl
+    text-sm font-semibold"
+  ></div>
+
+
+  <!-- ================= SCRIPTS ================= -->
+
+  <script src="supabase-config.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+  <script>
+
+    /*
+     * ============================================================
+     * SUPABASE INITIALIZATION
+     * ============================================================
+     */
+
+    const cfg = window.SUPABASE_CONFIG || {};
+
+    function configured() {
+
+      return (
+        typeof cfg.url === "string" &&
+        cfg.url.startsWith("https://") &&
+        typeof cfg.anonKey === "string" &&
+        cfg.anonKey.length > 20
+      );
+
+    }
+
+
+    if (!configured()) {
+
+      console.error(
+        "Supabase configuration is missing or invalid.",
+        cfg
+      );
+
+    }
+
+
+    const client = configured()
+      ? window.supabase.createClient(
+          cfg.url,
+          cfg.anonKey
+        )
+      : null;
+
+
+    /*
+     * ============================================================
+     * HELPERS
+     * ============================================================
+     */
+
+    const $ = selector =>
+      document.querySelector(selector);
+
+    const $$ = selector =>
+      document.querySelectorAll(selector);
+
+
+    let projects = [];
+    let media = [];
+    let enquiries = [];
+    let visitorRows = [];
+
+
+    function toast(message) {
+
+      const t = $("#toast");
+
+      t.textContent = message;
+
+      t.classList.remove("hidden");
+
+      clearTimeout(window.toastTimer);
+
+      window.toastTimer = setTimeout(() => {
+
+        t.classList.add("hidden");
+
+      }, 3000);
+
+    }
+
+
+    function esc(value = "") {
+
+      return String(value).replace(
+        /[&<>"']/g,
+        character => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#039;"
+        })[character]
+      );
+
+    }
+
+
+    function statusClass(status) {
+
+      if (status === "Completed") {
+        return "bg-green-100 text-green-700";
+      }
+
+      if (status === "Ongoing") {
+        return "bg-orange/10 text-orange";
+      }
+
+      return "bg-black/5 text-black/50";
+
+    }
+
+
+    /*
+     * ============================================================
+     * SHOW APPLICATION
+     * ============================================================
+     */
+
+    function showApp(user) {
+
+      $("#loginScreen").classList.add("hidden");
+
+      $("#app").classList.remove("hidden");
+
+      $("#adminEmail").textContent =
+        user?.email || "";
+
+      loadAll();
+
+      subscribeRealtime();
+
+    }
+
+
+    /*
+     * ============================================================
+     * NAVIGATION
+     * ============================================================
+     */
+
+    function openView(view) {
+
+      $$(".view").forEach(section => {
+
+        section.classList.add("hidden");
+
+      });
+
+
+      const target =
+        $("#view-" + view);
+
+      if (target) {
+        target.classList.remove("hidden");
+      }
+
+
+      $$(".sidebar-link").forEach(button => {
+
+        button.classList.toggle(
+          "active",
+          button.dataset.view === view
+        );
+
+      });
+
+
+      const titles = {
+
+        dashboard: "Dashboard",
+        projects: "Project Library",
+        media: "Media & Videos",
+        enquiries: "Project Enquiries",
+        settings: "Settings"
+
+      };
+
+
+      $("#pageTitle").textContent =
+        titles[view] || "Dashboard";
+
+
+      if (view === "projects") {
+        renderProjects();
+      }
+
+      if (view === "media") {
+        renderMedia();
+      }
+
+      if (view === "enquiries") {
+        renderEnquiries();
+      }
+
+      if (view === "settings") {
+        loadSettings();
+      }
+
+
+      $("#sidebar").classList.add(
+        "-translate-x-full"
+      );
+
+      $("#overlay").classList.add(
+        "hidden"
+      );
+
+    }
+
+
+    /*
+     * ============================================================
+     * LOAD EVERYTHING
+     * ============================================================
+     */
+
+    async function loadAll() {
+
+      if (!client) return;
+
+      await Promise.all([
+        loadProjects(),
+        loadMedia(),
+        loadEnquiries(),
+        loadVisitorAnalytics()
+      ]);
+
+      updateStats();
+
+      renderRecent();
+
+    }
+
+
+    /*
+     * ============================================================
+     * VISITOR ANALYTICS
+     * ============================================================
+     */
+
+    async function loadVisitorAnalytics() {
+
+      if (!client) return;
+
+
+      const result = await client
+        .from("page_views")
+        .select(
+          "id,session_id,page_path,referrer,created_at"
+        )
+        .order(
+          "created_at",
+          { ascending: false }
+        )
+        .limit(30);
+
+
+      if (result.error) {
+
+        console.warn(
+          "Visitor analytics:",
+          result.error.message
+        );
+
+        return;
+
+      }
+
+
+      visitorRows =
+        result.data || [];
+
+
+      const unique =
+        new Set(
+          visitorRows.map(
+            visitor => visitor.session_id
+          )
+        ).size;
+
+
+      const allResult =
+        await client
+          .from("page_views")
+          .select(
+            "session_id",
+            { count: "exact" }
+          );
+
+
+      const allRows =
+        allResult.data || [];
+
+
+      const uniqueAll =
+        new Set(
+          allRows.map(
+            visitor => visitor.session_id
+          )
+        ).size;
+
+
+      const views =
+        allResult.count ??
+        visitorRows.length;
+
+
+      const known =
+        new Set(
+          enquiries
+            .map(
+              enquiry =>
+                (
+                  enquiry.email ||
+                  enquiry.phone ||
+                  enquiry.name ||
+                  ""
+                ).toLowerCase()
+            )
+            .filter(Boolean)
+        ).size;
+
+
+      $("#statVisits").textContent =
+        views;
+
+      $("#statUnique").textContent =
+        uniqueAll || unique;
+
+      $("#analyticsViews").textContent =
+        views;
+
+      $("#analyticsUnique").textContent =
+        uniqueAll || unique;
+
+      $("#analyticsKnown").textContent =
+        known;
+
+
+      renderVisitors();
+
+    }
+
+
+    function renderVisitors() {
+
+      if (!visitorRows.length) {
+
+        $("#visitorList").innerHTML = `
+          <div class="text-sm text-black/40 py-4">
+            No visits recorded yet.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      $("#visitorList").innerHTML =
+        visitorRows
+          .slice(0, 12)
+          .map(visitor => `
+
+            <div class="py-3 flex items-center justify-between gap-4">
+
+              <div>
+
+                <div class="font-semibold text-sm">
+                  Anonymous visitor
+                </div>
+
+                <div class="text-xs text-black/40 mt-1">
+                  ${esc(visitor.page_path || "")}
+                  ${
+                    visitor.referrer
+                      ? " · from " + esc(visitor.referrer)
+                      : ""
+                  }
+                </div>
+
+              </div>
+
+              <div class="text-[11px] text-black/35 whitespace-nowrap">
+                ${new Date(
+                  visitor.created_at
+                ).toLocaleString()}
+              </div>
+
+            </div>
+
+          `)
+          .join("");
+
+    }
+
+
+    /*
+     * ============================================================
+     * PROJECTS
+     * ============================================================
+     */
+
+    async function loadProjects() {
+
+      if (!client) return;
+
+
+      const result =
+        await client
+          .from("projects")
+          .select("*")
+          .order(
+            "created_at",
+            { ascending: false }
+          );
+
+
+      if (result.error) {
+
+        toast(result.error.message);
+
+        return;
+
+      }
+
+
+      projects =
+        result.data || [];
+
+
+      updateStats();
+
+      renderRecent();
+
+      populateMediaProjects();
+
+
+      if (
+        !$("#view-projects")
+          .classList
+          .contains("hidden")
+      ) {
+
+        renderProjects();
+
+      }
+
+    }
+
+
+    /*
+     * ============================================================
+     * MEDIA
+     * ============================================================
+     */
+
+    async function loadMedia() {
+
+      if (!client) return;
+
+
+      const result =
+        await client
+          .from("media")
+          .select("*,projects(name)")
+          .order(
+            "created_at",
+            { ascending: false }
+          );
+
+
+      if (result.error) {
+
+        toast(result.error.message);
+
+        return;
+
+      }
+
+
+      media =
+        result.data || [];
+
+
+      renderMedia();
+
+    }
+
+
+    /*
+     * ============================================================
+     * ENQUIRIES
+     * ============================================================
+     */
+
+    async function loadEnquiries() {
+
+      if (!client) return;
+
+
+      const result =
+        await client
+          .from("enquiries")
+          .select("*")
+          .order(
+            "created_at",
+            { ascending: false }
+          );
+
+
+      if (result.error) {
+
+        toast(result.error.message);
+
+        return;
+
+      }
+
+
+      enquiries =
+        result.data || [];
+
+
+      updateStats();
+
+      renderEnquiries();
+
+    }
+
+
+    /*
+     * ============================================================
+     * STATISTICS
+     * ============================================================
+     */
+
+    function updateStats() {
+
+      $("#statTotal").textContent =
+        projects.length;
+
+
+      $("#statPublished").textContent =
+        projects.filter(
+          project =>
+            project.status !== "Draft"
+        ).length;
+
+
+      $("#statOngoing").textContent =
+        projects.filter(
+          project =>
+            project.status === "Ongoing"
+        ).length;
+
+
+      const newEnquiries =
+        enquiries.filter(
+          enquiry =>
+            enquiry.status === "New"
+        ).length;
+
+
+      $("#statEnquiries").textContent =
+        newEnquiries;
+
+
+      $("#newBadge").textContent =
+        newEnquiries;
+
+
+      $("#newBadge").classList.toggle(
+        "hidden",
+        !newEnquiries
+      );
+
+    }
+
+
+    /*
+     * ============================================================
+     * RECENT PROJECTS
+     * ============================================================
+     */
+
+    function renderRecent() {
+
+      const recent =
+        projects.slice(0, 5);
+
+
+      if (!recent.length) {
+
+        $("#recentProjects").innerHTML = `
+          <div class="p-8 text-sm text-black/40">
+            No projects yet.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      $("#recentProjects").innerHTML =
+        recent.map(project => `
+
+          <div class="p-5 flex items-center gap-4">
+
+            <div class="w-14 h-14 bg-black/5 overflow-hidden flex-shrink-0">
+
+              ${
+                project.cover_image_url
+                  ? `
+                    <img
+                      src="${esc(project.cover_image_url)}"
+                      class="w-full h-full object-cover"
+                      alt=""
+                    >
+                  `
+                  : ""
+              }
+
+            </div>
+
+
+            <div class="min-w-0 flex-1">
+
+              <div class="font-bold truncate">
+                ${esc(project.name)}
+              </div>
+
+              <div class="text-xs text-black/40 mt-1">
+                ${esc(project.location || "No location")}
+                ·
+                ${esc(project.type || "")}
+              </div>
+
+            </div>
+
+
+            <span
+              class="text-[10px] font-bold px-2 py-1
+              ${statusClass(project.status)}"
+            >
+              ${esc(project.status)}
+            </span>
+
+          </div>
+
+        `).join("");
+
+    }
+
+
+    /*
+     * ============================================================
+     * PROJECT TABLE
+     * ============================================================
+     */
+
+    function renderProjects() {
+
+      const search =
+        $("#searchProjects")
+          .value
+          .toLowerCase();
+
+
+      const status =
+        $("#statusFilter").value;
+
+
+      const type =
+        $("#typeFilter").value;
+
+
+      const rows =
+        projects.filter(project => {
+
+          const text =
+            (
+              project.name +
+              " " +
+              (project.location || "") +
+              " " +
+              (project.description || "")
+            ).toLowerCase();
+
+
+          return (
+            text.includes(search) &&
+            (status === "all" ||
+              project.status === status) &&
+            (type === "all" ||
+              project.type === type)
+          );
+
+        });
+
+
+      $("#projectTable").innerHTML = `
+
+        <table class="w-full text-left min-w-[900px]">
+
+          <thead
+            class="bg-cream text-[10px] uppercase tracking-wider"
+          >
+
+            <tr>
+
+              <th class="p-4">
+                Project
+              </th>
+
+              <th>
+                Type
+              </th>
+
+              <th>
+                Status
+              </th>
+
+              <th>
+                Year
+              </th>
+
+              <th>
+                Featured
+              </th>
+
+              <th class="p-4">
+                Actions
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody class="divide-y divide-black/5">
+
+            ${
+              rows.length
+
+                ? rows.map(project => `
+
+                    <tr>
+
+                      <td class="p-4">
+
+                        <div class="flex items-center gap-3">
+
+                          <div
+                            class="w-12 h-12 bg-black/5 overflow-hidden"
+                          >
+
+                            ${
+                              project.cover_image_url
+                                ? `
+                                  <img
+                                    src="${esc(project.cover_image_url)}"
+                                    class="w-full h-full object-cover"
+                                    alt=""
+                                  >
+                                `
+                                : ""
+                            }
+
+                          </div>
+
+
+                          <div>
+
+                            <b>
+                              ${esc(project.name)}
+                            </b>
+
+                            <div class="text-xs text-black/40">
+                              ${esc(project.location || "")}
+                            </div>
+
+                          </div>
+
+                        </div>
+
+                      </td>
+
+
+                      <td>
+                        ${esc(project.type || "")}
+                      </td>
+
+
+                      <td>
+
+                        <span
+                          class="text-[10px] font-bold px-2 py-1
+                          ${statusClass(project.status)}"
+                        >
+                          ${esc(project.status)}
+                        </span>
+
+                      </td>
+
+
+                      <td>
+                        ${esc(project.year || "—")}
+                      </td>
+
+
+                      <td>
+                        ${project.featured ? "★" : "—"}
+                      </td>
+
+
+                      <td class="p-4">
+
+                        <div class="flex gap-2">
+
+                          <button
+                            onclick="editProject('${project.id}')"
+                            class="text-xs font-bold px-3 py-2 border border-black/10"
+                          >
+                            Edit
+                          </button>
+
+
+                          <button
+                            onclick="deleteProject('${project.id}')"
+                            class="text-xs font-bold px-3 py-2 bg-black text-white"
+                          >
+                            Delete
+                          </button>
+
+                        </div>
+
+                      </td>
+
+                    </tr>
+
+                  `).join("")
+
+                : `
+                  <tr>
+
+                    <td
+                      colspan="6"
+                      class="p-10 text-center text-sm text-black/40"
+                    >
+                      No matching projects.
+                    </td>
+
+                  </tr>
+                `
+            }
+
+          </tbody>
+
+        </table>
+
+      `;
+
+    }
+
+
+    /*
+     * ============================================================
+     * MEDIA RENDER
+     * ============================================================
+     */
+
+    function renderMedia() {
+
+      if (!media.length) {
+
+        $("#mediaGrid").innerHTML = `
+          <div
+            class="sm:col-span-2 xl:col-span-3
+            bg-white p-12 text-center text-sm text-black/40"
+          >
+            No media uploaded yet.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      $("#mediaGrid").innerHTML =
+        media.map(item => `
+
+          <article
+            class="bg-white border border-black/5 overflow-hidden"
+          >
+
+            <div class="h-48 bg-ink relative">
+
+              ${
+                item.media_type === "Photo"
+
+                  ? `
+                    <img
+                      src="${esc(item.url)}"
+                      class="w-full h-full object-cover"
+                      alt=""
+                    >
+                  `
+
+                  : `
+                    <video
+                      src="${esc(item.url)}"
+                      class="w-full h-full object-cover"
+                      controls
+                    ></video>
+                  `
+              }
+
+
+              <span
+                class="absolute top-3 left-3 bg-orange
+                text-white text-[10px] font-bold px-2 py-1"
+              >
+                ${esc(item.media_type)}
+              </span>
+
+            </div>
+
+
+            <div class="p-5">
+
+              <b>
+                ${esc(item.title)}
+              </b>
+
+              <p class="text-xs text-black/40 mt-1">
+                ${esc(item.projects?.name || "Unassigned")}
+              </p>
+
+
+              <button
+                onclick="deleteMedia(
+                  '${item.id}',
+                  '${esc(item.storage_path || "")}'
+                )"
+                class="mt-4 text-xs font-bold text-red-600"
+              >
+                Remove
+              </button>
+
+            </div>
+
+          </article>
+
+        `).join("");
+
+    }
+
+
+    /*
+     * ============================================================
+     * ENQUIRIES RENDER
+     * ============================================================
+     */
+
+    function renderEnquiries() {
+
+      const rows =
+        enquiries;
+
+
+      $("#enquiryTable").innerHTML = `
+
+        <table class="w-full text-left min-w-[900px]">
+
+          <thead
+            class="bg-cream text-[10px] uppercase tracking-wider"
+          >
+
+            <tr>
+
+              <th class="p-4">
+                Visitor
+              </th>
+
+              <th>
+                Project
+              </th>
+
+              <th>
+                Location
+              </th>
+
+              <th>
+                Message
+              </th>
+
+              <th>
+                Status
+              </th>
+
+              <th class="p-4">
+                Action
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody class="divide-y divide-black/5">
+
+            ${
+              rows.length
+
+                ? rows.map(enquiry => `
+
+                    <tr>
+
+                      <td class="p-4">
+
+                        <b>
+                          ${esc(enquiry.name)}
+                        </b>
+
+                        <div class="text-xs text-black/40">
+
+                          ${esc(enquiry.email || "")}
+
+                          <br>
+
+                          ${esc(enquiry.phone || "")}
+
+                        </div>
+
+                      </td>
+
+
+                      <td>
+                        ${esc(enquiry.project_type || "—")}
+                      </td>
+
+
+                      <td>
+                        ${esc(enquiry.location || "—")}
+                      </td>
+
+
+                      <td class="max-w-sm text-sm">
+                        ${esc(enquiry.message || "")}
+                      </td>
+
+
+                      <td>
+
+                        <span
+                          class="text-[10px] font-bold px-2 py-1
+                          ${
+                            enquiry.status === "New"
+                              ? "bg-orange/10 text-orange"
+                              : "bg-black/5 text-black/50"
+                          }"
+                        >
+                          ${esc(enquiry.status)}
+                        </span>
+
+                      </td>
+
+
+                      <td class="p-4">
+
+                        <button
+                          onclick="markEnquiry('${enquiry.id}')"
+                          class="text-xs font-bold border border-black/10 px-3 py-2"
+                        >
+                          ${
+                            enquiry.status === "New"
+                              ? "Mark Contacted"
+                              : "Reopen"
+                          }
+                        </button>
+
+                      </td>
+
+                    </tr>
+
+                  `).join("")
+
+                : `
+                  <tr>
+
+                    <td
+                      colspan="6"
+                      class="p-10 text-center text-sm text-black/40"
+                    >
+                      No enquiries yet.
+                    </td>
+
+                  </tr>
+                `
+            }
+
+          </tbody>
+
+        </table>
+
+      `;
+
+    }
+
+
+    /*
+     * ============================================================
+     * MEDIA PROJECT SELECT
+     * ============================================================
+     */
+
+    function populateMediaProjects() {
+
+      $("#mProject").innerHTML =
+        `
+          <option value="">
+            Unassigned
+          </option>
+        ` +
+
+        projects.map(project => `
+          <option value="${project.id}">
+            ${esc(project.name)}
+          </option>
+        `).join("");
+
+    }
+
+
+    /*
+     * ============================================================
+     * STORAGE UPLOAD
+     * ============================================================
+     */
+
+    async function uploadFile(file) {
+
+      const safeName =
+        file.name.replace(
+          /[^a-zA-Z0-9._-]/g,
+          "_"
+        );
+
+
+      const path =
+        `${crypto.randomUUID()}-${safeName}`;
+
+
+      const result =
+        await client
+          .storage
+          .from("project-media")
+          .upload(
+            path,
+            file,
+            {
+              upsert: false
+            }
+          );
+
+
+      if (result.error) {
+        throw result.error;
+      }
+
+
+      const publicUrl =
+        client
+          .storage
+          .from("project-media")
+          .getPublicUrl(path)
+          .data
+          .publicUrl;
+
+
+      return {
+        path,
+        url: publicUrl
+      };
+
+    }
+
+
+    /*
+     * ============================================================
+     * PROJECT MODAL
+     * ============================================================
+     */
+
+    function openProject(project) {
+
+      $("#projectModalTitle").textContent =
+        project
+          ? "Edit Project"
+          : "Add Project";
+
+
+      $("#projectId").value =
+        project?.id || "";
+
+
+      $("#pName").value =
+        project?.name || "";
+
+
+      $("#pLocation").value =
+        project?.location || "";
+
+
+      $("#pType").value =
+        project?.type || "Residential";
+
+
+      $("#pStatus").value =
+        project?.status || "Ongoing";
+
+
+      $("#pYear").value =
+        project?.year || 2026;
+
+
+      $("#pDescription").value =
+        project?.description || "";
+
+
+      $("#pImageUrl").value =
+        project?.cover_image_url || "";
+
+
+      $("#pImageFile").value =
+        "";
+
+
+      $("#pFeatured").checked =
+        !!project?.featured;
+
+
+      $("#projectModal").classList.remove(
+        "hidden"
+      );
+
+      $("#projectModal").classList.add(
+        "flex"
+      );
+
+    }
+
+
+    window.editProject = function(id) {
+
+      const project =
+        projects.find(
+          item => item.id === id
+        );
+
+
+      if (project) {
+        openProject(project);
+      }
+
+    };
+
+
+    window.deleteProject = async function(id) {
+
+      if (
+        !confirm(
+          "Delete this project and its linked media records?"
+        )
+      ) {
+        return;
+      }
+
+
+      const result =
+        await client
+          .from("projects")
+          .delete()
+          .eq("id", id);
+
+
+      if (result.error) {
+
+        toast(result.error.message);
+
+        return;
+
+      }
+
+
+      toast("Project deleted");
+
+      await loadAll();
+
+    };
+
+
+    window.deleteMedia = async function(id, path) {
+
+      if (
+        !confirm(
+          "Remove this media?"
+        )
+      ) {
+        return;
+      }
+
+
+      let result =
+        await client
+          .from("media")
+          .delete()
+          .eq("id", id);
+
+
+      if (result.error) {
+
+        toast(result.error.message);
+
+        return;
+
+      }
+
+
+      if (path) {
+
+        await client
+          .storage
+          .from("project-media")
+          .remove([path]);
+
+      }
+
+
+      toast("Media removed");
+
+      await loadMedia();
+
+    };
+
+
+    window.markEnquiry = async function(id) {
+
+      const enquiry =
+        enquiries.find(
+          item => item.id === id
+        );
+
+
+      if (!enquiry) return;
+
+
+      const nextStatus =
+        enquiry.status === "New"
+          ? "Contacted"
+          : "New";
+
+
+      const result =
+        await client
+          .from("enquiries")
+          .update({
+            status: nextStatus
+          })
+          .eq("id", id);
+
+
+      if (result.error) {
+
+        toast(result.error.message);
+
+        return;
+
+      }
+
+
+      await loadEnquiries();
+
+      toast("Enquiry updated");
+
+    };
+
+
+    /*
+     * ============================================================
+     * LOGIN
+     * ============================================================
+     */
+
+    $("#loginForm").addEventListener(
+      "submit",
+      async event => {
+
+        event.preventDefault();
+
+
+        if (!configured()) {
+
+          $("#loginError").textContent =
+            "Supabase configuration is invalid. Check supabase-config.js.";
+
+          $("#loginError").classList.remove(
+            "hidden"
+          );
+
+          return;
+
+        }
+
+
+        $("#loginError").classList.add(
+          "hidden"
+        );
+
+
+        const email =
+          $("#loginEmail").value.trim();
+
+
+        const password =
+          $("#loginPassword").value;
+
+
+        const result =
+          await client.auth.signInWithPassword({
+            email,
+            password
+          });
+
+
+        if (result.error) {
+
+          $("#loginError").textContent =
+            result.error.message;
+
+          $("#loginError").classList.remove(
+            "hidden"
+          );
+
+          return;
+
+        }
+
+
+        showApp(
+          result.data.user
+        );
+
+      }
+    );
+
+
+    /*
+     * ============================================================
+     * LOGOUT
+     * ============================================================
+     */
+
+    $("#logoutBtn").onclick =
+      async () => {
+
+        await client.auth.signOut();
+
+        location.reload();
+
+      };
+
+
+    /*
+     * ============================================================
+     * NAVIGATION EVENTS
+     * ============================================================
+     */
+
+    $$(".sidebar-link").forEach(button => {
+
+      button.onclick = () => {
+
+        openView(
+          button.dataset.view
+        );
+
+      };
+
+    });
+
+
+    $("#quickAdd").onclick =
+      () => openProject();
+
+
+    $("#addProject").onclick =
+      () => openProject();
+
+
+    /*
+     * ============================================================
+     * CLOSE PROJECT MODAL
+     * ============================================================
+     */
+
+    $$(".close-project").forEach(button => {
+
+      button.onclick = () => {
+
+        $("#projectModal")
+          .classList
+          .add("hidden");
+
+      };
+
+    });
+
+
+    /*
+     * ============================================================
+     * SAVE PROJECT
+     * ============================================================
+     */
+
+    $("#projectForm").addEventListener(
+      "submit",
+      async event => {
+
+        event.preventDefault();
+
+
+        const button =
+          event.submitter;
+
+
+        button.disabled = true;
+
+
+        try {
+
+          let image =
+            $("#pImageUrl")
+              .value
+              .trim();
+
+
+          const file =
+            $("#pImageFile")
+              .files[0];
+
+
+          if (file) {
+
+            const uploaded =
+              await uploadFile(file);
+
+            image =
+              uploaded.url;
+
+          }
+
+
+          const payload = {
+
+            name:
+              $("#pName")
+                .value
+                .trim(),
+
+            location:
+              $("#pLocation")
+                .value
+                .trim(),
+
+            type:
+              $("#pType")
+                .value,
+
+            status:
+              $("#pStatus")
+                .value,
+
+            year:
+              Number(
+                $("#pYear")
+                  .value
+              ) || null,
+
+            description:
+              $("#pDescription")
+                .value
+                .trim(),
+
+            cover_image_url:
+              image || null,
+
+            featured:
+              $("#pFeatured")
+                .checked
+
+          };
+
+
+          const id =
+            $("#projectId")
+              .value;
+
+
+          let result;
+
+
+          if (id) {
+
+            result =
+              await client
+                .from("projects")
+                .update(payload)
+                .eq("id", id);
+
+          } else {
+
+            result =
+              await client
+                .from("projects")
+                .insert(payload);
+
+          }
+
+
+          if (result.error) {
+            throw result.error;
+          }
+
+
+          $("#projectModal")
+            .classList
+            .add("hidden");
+
+
+          toast(
+            id
+              ? "Project updated"
+              : "Project published to database"
+          );
+
+
+          await loadProjects();
+
+        } catch (error) {
+
+          toast(
+            error.message ||
+            "Could not save project"
+          );
+
+        } finally {
+
+          button.disabled = false;
+
+        }
+
+      }
+    );
+
+
+    /*
+     * ============================================================
+     * MEDIA MODAL
+     * ============================================================
+     */
+
+    $("#addMedia").onclick = () => {
+
+      $("#mediaModal")
+        .classList
+        .remove("hidden");
+
+      $("#mediaModal")
+        .classList
+        .add("flex");
+
+      populateMediaProjects();
+
+    };
+
+
+    $$(".close-media").forEach(button => {
+
+      button.onclick = () => {
+
+        $("#mediaModal")
+          .classList
+          .add("hidden");
+
+      };
+
+    });
+
+
+    /*
+     * ============================================================
+     * MEDIA UPLOAD
+     * ============================================================
+     */
+
+    $("#mediaForm").addEventListener(
+      "submit",
+      async event => {
+
+        event.preventDefault();
+
+
+        const button =
+          event.submitter;
+
+
+        button.disabled = true;
+
+
+        try {
+
+          const file =
+            $("#mFile")
+              .files[0];
+
+
+          if (!file) {
+            throw new Error(
+              "Choose a file"
+            );
+          }
+
+
+          const uploaded =
+            await uploadFile(file);
+
+
+          const mediaType =
+            file.type.startsWith("video/")
+              ? "Video"
+              : "Photo";
+
+
+          const result =
+            await client
+              .from("media")
+              .insert({
+
+                title:
+                  $("#mTitle")
+                    .value
+                    .trim(),
+
+                project_id:
+                  $("#mProject")
+                    .value || null,
+
+                media_type:
+                  mediaType,
+
+                url:
+                  uploaded.url,
+
+                storage_path:
+                  uploaded.path
+
+              });
+
+
+          if (result.error) {
+            throw result.error;
+          }
+
+
+          $("#mediaForm")
+            .reset();
+
+
+          $("#mediaModal")
+            .classList
+            .add("hidden");
+
+
+          toast(
+            "Media uploaded"
+          );
+
+
+          await loadMedia();
+
+        } catch (error) {
+
+          toast(
+            error.message ||
+            "Upload failed"
+          );
+
+        } finally {
+
+          button.disabled = false;
+
+        }
+
+      }
+    );
+
+
+    /*
+     * ============================================================
+     * PROJECT SEARCH
+     * ============================================================
+     */
+
+    [
+      "searchProjects",
+      "statusFilter",
+      "typeFilter"
+    ].forEach(id => {
+
+      $("#" + id).addEventListener(
+        "input",
+        renderProjects
+      );
+
+    });
+
+
+    /*
+     * ============================================================
+     * SETTINGS
+     * ============================================================
+     */
+
+    $("#settingsForm").addEventListener(
+      "submit",
+      async event => {
+
+        event.preventDefault();
+
+
+        const result =
+          await client
+            .from("site_settings")
+            .update({
+
+              company_name:
+                $("#setName")
+                  .value
+                  .trim(),
+
+              whatsapp:
+                $("#setWhatsapp")
+                  .value
+                  .trim(),
+
+              enquiry_email:
+                $("#setEmail")
+                  .value
+                  .trim()
+
+            })
+            .eq("id", 1);
+
+
+        if (result.error) {
+
+          toast(
+            result.error.message
+          );
+
+          return;
+
+        }
+
+
+        toast(
+          "Settings saved"
+        );
+
+      }
+    );
+
+
+    async function loadSettings() {
+
+      const result =
+        await client
+          .from("site_settings")
+          .select("*")
+          .eq("id", 1)
+          .single();
+
+
+      if (result.error) {
+
+        console.warn(
+          "Settings:",
+          result.error.message
+        );
+
+        return;
+
+      }
+
+
+      if (result.data) {
+
+        $("#setName").value =
+          result.data.company_name || "";
+
+
+        $("#setWhatsapp").value =
+          result.data.whatsapp || "";
+
+
+        $("#setEmail").value =
+          result.data.enquiry_email || "";
+
+      }
+
+    }
+
+
+    /*
+     * ============================================================
+     * MOBILE MENU
+     * ============================================================
+     */
+
+    $("#mobileMenu").onclick = () => {
+
+      $("#sidebar")
+        .classList
+        .remove("-translate-x-full");
+
+      $("#overlay")
+        .classList
+        .remove("hidden");
+
+    };
+
+
+    $("#overlay").onclick = () => {
+
+      $("#sidebar")
+        .classList
+        .add("-translate-x-full");
+
+      $("#overlay")
+        .classList
+        .add("hidden");
+
+    };
+
+
+    /*
+     * ============================================================
+     * REALTIME
+     * ============================================================
+     */
+
+    function subscribeRealtime() {
+
+      if (!client) return;
+
+
+      client
+        .channel("nwa-smile-live")
+
+        .on(
+          "postgres_changes",
+          {
+            event: "*",
+            schema: "public",
+            table: "projects"
+          },
+          () => loadProjects()
+        )
+
+        .on(
+          "postgres_changes",
+          {
+            event: "*",
+            schema: "public",
+            table: "media"
+          },
+          () => loadMedia()
+        )
+
+        .on(
+          "postgres_changes",
+          {
+            event: "*",
+            schema: "public",
+            table: "enquiries"
+          },
+          () => loadEnquiries()
+        )
+
+        .on(
+          "postgres_changes",
+          {
+            event: "INSERT",
+            schema: "public",
+            table: "page_views"
+          },
+          () => loadVisitorAnalytics()
+        )
+
+        .subscribe(status => {
+
+          if (status === "SUBSCRIBED") {
+
+            $("#realtimeStatus")
+              .classList
+              .remove("hidden");
+
+            $("#realtimeVisitorStatus")
+              .classList
+              .remove("hidden");
+
+          }
+
+        });
+
+    }
+
+
+    /*
+     * ============================================================
+     * START APPLICATION
+     * ============================================================
+     */
+
+    (async function () {
+
+      if (!configured()) {
+
+        console.error(
+          "Supabase is not configured correctly."
+        );
+
+        return;
+
+      }
+
+
+      const result =
+        await client.auth.getSession();
+
+
+      if (result.error) {
+
+        console.error(
+          result.error
+        );
+
+        return;
+
+      }
+
+
+      if (result.data.session) {
+
+        showApp(
+          result.data.session.user
+        );
+
+      }
+
+    })();
+
+  </script>
+
+</body>
+</html>
